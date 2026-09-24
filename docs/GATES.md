@@ -92,7 +92,7 @@ User must demonstrate:
 Status:
 
 ```text
-ORAL_PENDING
+PASS
 ```
 
 Logical Day:
@@ -251,19 +251,21 @@ Gate 0 makes no performance or quality claim.
 ## Decision
 
 ```text
-NOT_TESTED
+PASS
 ```
 
 Verified Date:
 
 ```text
-
+2026-09-24
 ```
 
 Reason:
 
 ```text
-Bootstrap evidence is complete; oral defense is pending.
+Evidence A complete.
+Test and Benchmark correctly marked N/A.
+Closed-book oral defense passed.
 ```
 
 # G01 — System Bootstrap
@@ -981,7 +983,7 @@ Reason:
 
 | Gate | First Attempt | Final Status | Pass Date | Evidence Commit |
 |---|---|---|---|---|
-| G00 |  | ORAL_PENDING |  | 6a7c06f |
+| G00 | 2026-09-24 | PASS | 2026-09-24 | 6a7c06f |
 | G01 | | | | |
 | G02 | | | | |
 | G03 | | | | |
