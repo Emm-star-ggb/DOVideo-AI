@@ -51,7 +51,7 @@ Snapshot Base HEAD:
 Last Evidence Commit:
 
 ```text
-8299f644f156aa1a01b1ac4b7ea0cad8aff22e7d
+6a7c06f866525ff60446f963bd0b8d9bd2dc344a
 ```
 
 > `Snapshot Base HEAD` 是开始本次 Gate 0 补救前，GitHub `learning` 分支的真实 HEAD。
@@ -858,11 +858,22 @@ Bootstrap initialization evidence:
 docs: initialize autumn recruitment learning system
 ```
 
-Files changed in Gate 0 remediation:
+Files changed in Gate 0 remediation commit 6a7c06f:
 
 ```text
-docs/GATES.md
+AGENTS.md
 docs/DAILY_LOG.md
+docs/GATES.md
+docs/LEARNING_PLAN.md
+
+AGENTS.md change:
+Added Commit / SHA Evidence Rules requested during supervision setup.
+
+LEARNING_PLAN.md change:
+Repository placeholder regression detected and corrected in the following docs-only correction commit.
+
+Business code changed:
+NONE
 ```
 
 Business code changed:

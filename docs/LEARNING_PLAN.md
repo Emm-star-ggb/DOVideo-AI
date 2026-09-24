@@ -34,7 +34,7 @@ DOVideo-AI
 Repository:
 
 ```text
-<YOUR_FORK_URL>
+https://github.com/Emm-star-ggb/DOVideo-AI
 ```
 
 Primary role:
@@ -54,7 +54,7 @@ Maoyan-Movie-System
 Repository:
 
 ```text
-<YOUR_FORK_URL>
+TBD — personal fork not initialized yet
 ```
 
 Primary role:

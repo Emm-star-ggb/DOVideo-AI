@@ -163,6 +163,12 @@ Bootstrap initialization commit:
 8299f644f156aa1a01b1ac4b7ea0cad8aff22e7d
 ```
 
+Gate 0 remediation evidence commit:
+
+```text
+6a7c06f866525ff60446f963bd0b8d9bd2dc344a
+```
+
 Pre-remediation HEAD:
 
 ```
@@ -975,7 +981,7 @@ Reason:
 
 | Gate | First Attempt | Final Status | Pass Date | Evidence Commit |
 |---|---|---|---|---|
-| G00 |  | ORAL_PENDING |  | 8299f644 |
+| G00 |  | ORAL_PENDING |  | 6a7c06f |
 | G01 | | | | |
 | G02 | | | | |
 | G03 | | | | |
