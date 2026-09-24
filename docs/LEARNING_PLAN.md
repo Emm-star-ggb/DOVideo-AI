@@ -34,7 +34,7 @@ DOVideo-AI
 Repository:
 
 ```text
-https://github.com/Emm-star-ggb/DOVideo-AI
+<YOUR_FORK_URL>
 ```
 
 Primary role:
@@ -54,7 +54,7 @@ Maoyan-Movie-System
 Repository:
 
 ```text
-https://github.com/Emm-star-ggb/DOVideo-AI
+<YOUR_FORK_URL>
 ```
 
 Primary role:

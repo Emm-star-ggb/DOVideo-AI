@@ -540,3 +540,217 @@ The actual stage is determined by:
 `docs/GATES.md`
 
 **Calendar Day does not override Gate state.**
+
+---
+
+# 18. Commit / SHA Evidence Rules
+
+Git commit SHA is used to prove **which commit supports which learning claim**.
+
+Do not try to keep every Markdown file synchronized with the repository's latest `HEAD`. Git itself is the authority for the current `HEAD`.
+
+Use:
+
+```bash
+git branch --show-current
+git rev-parse --short HEAD
+```
+
+to inspect the live repository state.
+
+## 18.1 Two Different Concepts
+
+### Current HEAD
+
+Meaning:
+
+```text
+The newest commit currently checked out in Git.
+```
+
+Do not manually mirror this value everywhere in documentation.
+
+### Evidence Commit
+
+Meaning:
+
+```text
+A commit that materially proves a learning result.
+```
+
+Examples:
+
+- user's first implementation;
+- post-review correction;
+- test implementation;
+- benchmark implementation/result artifact;
+- completed architecture tracing evidence.
+
+Documentation-only commits usually do not become evidence commits unless the documentation itself is the learning deliverable.
+
+## 18.2 Record a SHA Where It Proves Something
+
+Use the SHA in the document related to the evidence.
+
+```text
+Feature implementation
+→ DAILY_LOG + corresponding Gate Evidence A
+
+Test implementation
+→ DAILY_LOG + corresponding Gate Evidence B
+
+Benchmark implementation/result
+→ DAILY_LOG + BENCHMARK + corresponding Gate
+
+Gate verification baseline
+→ LEARNING_PLAN Last Verified Commit
+```
+
+Do not copy every new SHA into every file.
+
+## 18.3 No Self-Referential Commit Loop
+
+Never create this loop:
+
+```text
+commit A
+→ write A into Markdown
+→ commit B
+→ replace A with B
+→ commit C
+→ replace B with C
+→ ...
+```
+
+Example:
+
+```text
+34cd567  user's first implementation
+56ef789  tests
+78ab901  docs: record D07 evidence
+```
+
+The documentation may correctly contain:
+
+```text
+Feature Evidence = 34cd567
+Test Evidence = 56ef789
+```
+
+even though repository `HEAD` is `78ab901`.
+
+## 18.4 Last Evidence Commit
+
+`docs/DAILY_LOG.md` uses:
+
+```text
+Last Evidence Commit
+```
+
+This means:
+
+```text
+The most recent commit that materially proves the current learning outcome.
+```
+
+It does **not** mean current Git `HEAD`.
+
+Examples of evidence commits:
+
+- core feature implementation;
+- meaningful bug fix;
+- test commit;
+- benchmark-related commit;
+- verified architecture investigation when architecture documentation is the actual deliverable.
+
+Examples normally not treated as evidence commits:
+
+- formatting;
+- typo fixes;
+- recording a previous SHA;
+- reorganizing Markdown headings.
+
+## 18.5 Last Verified Commit
+
+`docs/LEARNING_PLAN.md` uses:
+
+```text
+Last Verified Commit
+```
+
+Meaning:
+
+```text
+The repository state up to which ChatGPT actually performed Gate verification.
+```
+
+It is updated only after a formal Gate check.
+
+If a later documentation commit records the PASS decision, do not automatically replace `Last Verified Commit` with that documentation commit.
+
+## 18.6 Gate Commit Evidence
+
+A Gate should reference commits that prove its requirements.
+
+Example:
+
+```text
+Evidence A — Code
+34cd567
+
+Evidence B — Tests
+56ef789
+```
+
+A later documentation-only commit does not invalidate those SHAs.
+
+## 18.7 Benchmark Commit Evidence
+
+Every benchmark must identify the exact code version used:
+
+```text
+Commit: <SHA>
+```
+
+If the benchmark was run with uncommitted code, mark it as not resume-eligible until reproduced from a committed state.
+
+## 18.8 Preferred Commit Sequence for Learning-Critical Features
+
+When practical:
+
+```text
+commit A — user's first implementation
+commit B — user's revision after Codex review
+commit C — tests
+commit D — benchmark/evaluation changes if applicable
+commit E — documentation/evidence update
+```
+
+The first four may be evidence commits. `commit E` usually records the evidence and does not need to reference itself.
+
+## 18.9 Commit Message Suggestions
+
+```text
+feat: implement initial agent tracing
+fix: handle duplicate trace persistence
+test: cover agent trace failure cases
+bench: add retrieval evaluation workload
+docs: record D07 gate evidence
+```
+
+Avoid vague messages such as:
+
+```text
+update
+fix stuff
+day 7
+```
+
+## 18.10 Rule of Thumb
+
+Before writing a SHA into documentation, ask:
+
+> What exact claim does this commit prove?
+
+If there is no clear answer, the SHA probably does not need to be recorded.
+

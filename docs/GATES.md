@@ -87,6 +87,179 @@ User must demonstrate:
 
 ---
 
+# G00 — Bootstrap System Initialization 
+
+Status:
+
+```text
+ORAL_PENDING
+```
+
+Logical Day:
+
+```text
+D00
+```
+
+## Goal
+
+建立并验证秋招学习监督系统本身。
+
+G00 只验证：
+
+- Git / 分支
+- AGENTS.md
+- docs 学习控制文件
+- 初始化 commit
+- ChatGPT / Codex / GitHub 工作流
+
+G00 不验证：
+
+- DOVideo-AI 是否启动
+- Agent / RAG 知识
+- 业务代码
+- 性能 Benchmark
+
+## Scope Lock
+
+G00 PASS 之前：
+
+- [x]  不启动 DOVideo-AI
+- [x]  不学习 Agent / RAG
+- [x]  不让 Codex 修改业务代码
+- [x]  只允许修改学习监督文档
+
+------
+
+## Evidence A — Code / Git
+
+- [x]  Repo forked to personal account
+- [x]  `learning` branch exists on GitHub
+- [x]  `AGENTS.md` present at repo root
+- [x]  `docs/` contains all 7 required learning files
+- [x]  Bootstrap initialization commit exists
+
+Repository:
+
+```
+Emm-star-ggb/DOVideo-AI
+```
+
+Upstream:
+
+```
+Xiaoc7r/DOVideo-AI
+```
+
+Branch:
+
+```
+learning
+```
+
+Bootstrap initialization commit:
+
+```
+8299f644f156aa1a01b1ac4b7ea0cad8aff22e7d
+```
+
+Pre-remediation HEAD:
+
+```
+998595831b1fcb6a17a78d8397c3dc093aefc752
+```
+
+Required docs:
+
+- [x]  `LEARNING_PLAN.md`
+- [x]  `DAILY_LOG.md`
+- [x]  `GATES.md`
+- [x]  `BENCHMARK.md`
+- [x]  `INTERVIEW_QA.md`
+- [x]  `INTERVIEW_DEBT.md`
+- [x]  `ARCHITECTURE.md`
+
+------
+
+## Evidence B — Test
+
+```
+N/A
+```
+
+Reason:
+
+```
+G00 is a repository / supervision-system initialization Gate.
+No application runtime test is required.
+```
+
+Alternative verification:
+
+```
+GitHub repository metadata
++ learning branch existence
++ required file existence
++ commit history
+```
+
+## Evidence C — Benchmark
+
+```
+N/A
+```
+
+Reason:
+
+```
+Gate 0 makes no performance or quality claim.
+```
+
+------
+
+## Evidence D — Oral Defense
+
+闭卷回答：
+
+1. `AGENTS.md` 的作用是什么？
+2. 为什么 `GATES.md` 是学习进度的 source of truth？
+3. User → Codex → ChatGPT 的正确工作流是什么？
+4. 为什么 G00 PASS 前不能直接进入 D01？
+
+不要在这里写答案。
+
+------
+
+## PASS Criteria
+
+必须同时满足：
+
+- Evidence A 完成
+- Test 正确标记为 N/A
+- Benchmark 正确标记为 N/A
+- `DAILY_LOG.md` 存在 D00
+- ChatGPT Oral Defense = PASS
+
+------
+
+## Decision
+
+```text
+NOT_TESTED
+```
+
+Verified Date:
+
+```text
+
+```
+
+Reason:
+
+```text
+Bootstrap evidence is complete; oral defense is pending.
+```
+
 # G01 — System Bootstrap
 
 Status:
@@ -802,6 +975,7 @@ Reason:
 
 | Gate | First Attempt | Final Status | Pass Date | Evidence Commit |
 |---|---|---|---|---|
+| G00 |  | ORAL_PENDING |  | 8299f644 |
 | G01 | | | | |
 | G02 | | | | |
 | G03 | | | | |
