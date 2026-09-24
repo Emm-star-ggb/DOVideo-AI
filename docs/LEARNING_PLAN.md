@@ -90,25 +90,25 @@ Agent fundamentals / source reading
 Current Logical Day:
 
 ```text
-D01
+D00
 ```
 
 Current Stage:
 
 ```text
-S1 — System Bootstrap
+S0 — Bootstrap System Initialization
 ```
 
 Current Gate:
 
 ```text
-G01
+G00
 ```
 
 Gate Status:
 
 ```text
-NOT_STARTED
+ORAL_PENDING
 ```
 
 Current Project:
@@ -126,7 +126,7 @@ Last Verified Commit:
 Last Updated:
 
 ```text
-YYYY-MM-DD
+2026-09-24
 ```
 
 ---
