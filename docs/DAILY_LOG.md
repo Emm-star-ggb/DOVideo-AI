@@ -1138,3 +1138,59 @@ NO
 
 > Do not start D01 until G00 = PASS.
 
+
+
+---
+
+## D01 — Environment Bootstrap Debugging Record (2026-10-06)
+
+### Current Gate
+
+```text
+G01 — System Bootstrap
+Status: IN_PROGRESS
+```
+
+### Environment blockers discovered
+
+1. Local branch was initially behind `origin/learning` by one documentation commit. The branch was safely fast-forwarded to `b4dc321` after confirming the worktree was clean and the README difference was only LF/CRLF noise.
+2. Docker CLI / Docker Desktop was not installed on Windows, so the required Compose-based middleware stack could not start.
+3. Local Java was JDK 17 (`D:\\Java\\JDK\\jdk17`) while the project requires JDK 21.
+4. WSL2 setup initially failed while enabling `VirtualMachinePlatform` with DISM error 14098 (component store corruption), then succeeded on a later attempt.
+5. After reboot, both `VirtualMachinePlatform` and `Microsoft-Windows-Subsystem-Linux` reported Enabled, `hypervisorlaunchtype` was Auto, firmware virtualization was reported enabled, and `HypervisorPresent=True`.
+6. Despite those prerequisites, `wsl --status` continued to report that WSL2 could not start because virtualization was unavailable. Further low-level diagnosis was limited because `hcsdiag` was not present.
+
+### Decision
+
+To avoid spending the D01 learning block on Windows virtualization-stack repair, switch the runtime environment to a Linux VM in VMware Workstation Pro and continue G01 there.
+
+Planned environment:
+
+```text
+VMware Workstation Pro
+→ Ubuntu 24.04 LTS
+→ Docker Engine + Docker Compose
+→ JDK 21
+→ Node.js
+→ FFmpeg / Tesseract
+→ DOVideo-AI middleware
+→ backend
+→ frontend
+→ one real business flow
+```
+
+### Debugging evidence / learning notes
+
+```text
+docker command not found
+→ Docker Desktop not installed
+→ attempted WSL2 prerequisites
+→ Windows optional component failure (14098)
+→ component later enabled successfully
+→ hypervisor present and virtualization firmware enabled
+→ WSL2 still reports virtualization unavailable
+→ stop sinking time into host OS repair
+→ move project runtime to VMware Ubuntu
+```
+
+This is a blocker record only. G01 is not passed yet; execution, startup verification, one real business flow, and oral defense are still required.
