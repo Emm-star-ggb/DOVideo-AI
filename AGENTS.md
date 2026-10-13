@@ -754,3 +754,44 @@ Before writing a SHA into documentation, ask:
 
 If there is no clear answer, the SHA probably does not need to be recorded.
 
+---
+
+# 19. Mandatory Oral / Test Archiving Protocol
+
+This protocol applies to every Gate and logical Day, including ChatGPT oral defense, Codex tests, manual checks, integration/E2E tests, and failed or retried attempts. **One question, one record; one test run, one record.** It applies without the user having to repeat the instruction in each session.
+
+## 19.1 Mandatory sequence
+
+For each completed oral answer or test attempt:
+
+1. Evaluate the attempt honestly: `PASS`, `FAIL`, `PARTIAL / FOLLOW_UP_PENDING`, or `NOT_RUN`. A single-question PASS is not a Gate PASS.
+2. Append a durable record to the appropriate logical Day in `docs/DAILY_LOG.md` **before starting the next question or test**. Record partial/failed attempts too; do not wait for final Gate PASS.
+3. Preserve the exact question and user's original answer where available; record all follow-up questions, answers, examiner comments, errors, uncertainties, and final result. Mark summaries, reconstructed material, and missing text explicitly. Never fabricate a lost answer.
+4. For each executed test, record exact command(s), environment/code ref, observed output or a durable artifact reference, exit status and pass/fail counts when available, and unresolved failures. Never call an unexecuted test PASS.
+5. Update `docs/INTERVIEW_QA.md` for meaningful reusable questions/mastery and `docs/INTERVIEW_DEBT.md` for demonstrated gaps, using the criteria already defined in those documents. Do not indiscriminately mark questions `MASTERED` after a basic Gate-level PASS.
+6. Update `docs/GATES.md` only when actual Gate evidence or decision changes; `docs/LEARNING_PLAN.md` only when learning-stage state changes. Avoid gratuitous SHA mirroring or self-referential commit loops.
+7. Commit documentation to the GitHub `learning` branch (or the explicitly authorized learning branch). Re-fetch changed files and verify that the new content is present, then report commit SHA, affected files, and verification outcome **before continuing**.
+
+## 19.2 Minimum archive fields
+
+Oral: unique record ID; date/time (timezone if known); Gate/Day; full question; original user answer; follow-ups; evaluation and reasons; corrections/knowledge gaps; final question status; related QA/debt IDs; archive commit link supplied after the commit.
+
+Test: unique record ID; date/time; Gate/Day; objective/type; environment and code revision; exact command/procedure; expected and observed results; raw output/artifact path or concise extract with explicit truncation; PASS/FAIL/NOT_RUN; failures and next action; commit link supplied after the commit.
+
+Use the reusable templates in `docs/DAILY_LOG.md`. Never store credentials, tokens, private keys, or personal secrets in transcripts or test output; redact and label redactions.
+
+## 19.3 Write failures and recovery
+
+- If GitHub or another required write operation fails, say **NOT ARCHIVED**, retain the complete pending record in the conversation, and retry only when safe; do not imply a commit succeeded.
+- If the user is offline or repository access is unavailable, do not silently move on. Explain the blocker and ask whether to proceed with explicitly unarchived work.
+- After a successful write, verify by reading the file from GitHub. A write API success alone is not the final verification.
+- If messages disappear, reconstruct only from accessible sources and user confirmation; clearly distinguish verbatim evidence from reported recollection.
+- Never alter historical user answers to make them look correct. Append corrections and reassessments instead.
+- This protocol does not grant permission to modify business code or override Gate PASS criteria.
+
+## 19.4 Roles
+
+ChatGPT: exam decisions, oral transcript archival, final Gate assessment.
+Codex: actual test execution/review and truthful raw evidence; may append test evidence if authorized, but cannot declare Gate PASS.
+User: performs learning-critical work and provides locally observed results when ChatGPT/Codex cannot inspect the runtime.
+GitHub: persistent archive and source of truth for verified records.
