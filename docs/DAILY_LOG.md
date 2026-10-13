@@ -1365,3 +1365,20 @@ Question 3 (container running but still connection refused), user answer:
 Assessment: PARTIAL. Port check is relevant; also verify host/port config and whether backend runs on host or in a separate Docker container. localhost is namespace-dependent; a container's localhost is not another container.
 
 No full question PASS or G01 PASS declared. Next: short recheck of concrete Redis verification and Docker network address distinction.
+
+
+### G01 Oral Defense — Startup Troubleshooting Final Recheck (2026-10-13)
+
+Question A: How to check Redis container/service from Ubuntu?
+User verbatim:
+> docker exec <Redis容器名> redis-cli ping
+
+Question B: Why may localhost:6379 fail when backend and Redis run in different Docker containers?
+User verbatim:
+> 因为这时localhost指向的是后端容器自己，而Redis在另一个容器中，两个容器需要通过Docker网络中的Redis服务名连接。
+
+Assessor: PASS for both, and PASS for the overall startup troubleshooting oral question after iterative follow-ups.
+- docker exec ... redis-cli ping tests whether Redis responds inside its container; docker ps is the direct container-running check.
+- Container-local localhost refers to that container, not a separate Redis container. Use an appropriate service name on the same configured Docker network.
+- Previous failed/partial attempts remain preserved above as learning history.
+- Overall G01 Gate decision NOT YET PASS: final A/B/C/D evidence reconciliation remains necessary.
