@@ -1231,3 +1231,32 @@ Gate: G01 — System Bootstrap. Oral defense remains in progress; overall Gate h
 ### Next oral topics
 - Explain infrastructure services and storage responsibilities; failure scenarios; startup configuration changes; and the concrete evidence of the end-to-end operation, sampling as required by docs/GATES.md.
 - Overall G01 oral defense and final PASS are pending. No business source changes in this documentation update.
+
+
+### G01 Oral Defense — Storage Responsibilities (2026-10-13)
+
+Result: PASS after follow-up. This is a question-level PASS, not a G01 Gate PASS.
+
+Initial answers:
+- MySQL: user knew it stores user data but could not name other data types; partial.
+- Redis vs MySQL: user explained relational persistent storage versus in-memory cache and latency; basic PASS, with correction that MySQL also uses memory and indexes.
+- MinIO: user knew it stores uploaded video files but was unsure why object storage is preferred over database BLOBs; partial.
+
+Follow-up question: for a 2GB uploaded video, choose storage for video bytes, video metadata, and frequently queried analysis-task status.
+
+User answer A (verbatim):
+> MinIO，视频文件本身可以作为对象存储，适合于MinIO的存储方式。存入MySQL中对于数据库容量，备份，复制和维护的负担比较重。Redis同理。可能还与视频文件之后的使用频率有关？这个只是猜想。
+
+User answer B (verbatim):
+> 优先存在MySQL中，这些信息属于“用户上传一次视频”的业务信息，适合存于MySQL中进行长久保存。Redis适合存储经常使用的数据，且一般数据设有ttl。而MinIO以对象存储访问，将用户的一次操作作为对象存储感觉不太合适（关于MinIO我还是了解不多，可能有错误地方，你可以多纠正）
+
+User answer C (verbatim):
+> 被频繁查询的分析任务，如果有Redis，那么该任务应该被存入了Redis，在之后的查询中直接从内存中访问数据，响应速度快。Redis中没有对应数据，只能说明该数据没有存储在Redis中，不能说明任务不存在，需要再从MySQL进行查询，如果MySQL中也没有对应数据，才能说明该任务不存在。
+
+Assessment:
+- A PASS: MinIO for large video objects; avoids database BLOB operational overhead. Access frequency alone is not a deciding factor.
+- B PASS: MySQL for structured metadata and durable business relationships; object key can refer to MinIO content.
+- C PASS: understands cache miss versus absence of durable task state. Redis caching and MySQL source-of-truth are design choices, not yet verified as DOVideo-AI implementation.
+- Architecture specifics must be confirmed from project source code in G02/G03. No claim of verified schema or Redis task-state cache.
+
+Next oral topic: other infrastructure services, dependency failure, startup configuration, or evidence of end-to-end execution. G01 overall remains IN_PROGRESS.
