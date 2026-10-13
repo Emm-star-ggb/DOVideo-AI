@@ -273,7 +273,7 @@ Closed-book oral defense passed.
 Status:
 
 ```text
-NOT_STARTED
+PASS
 ```
 
 Logical Day:
@@ -288,35 +288,44 @@ Prove that the user can independently run the primary system and understand its 
 
 ## Evidence A — Execution
 
-- [ ] primary repository accessible;
-- [ ] required infrastructure starts;
-- [ ] backend starts;
-- [ ] frontend starts;
-- [ ] one real business flow completes.
+- [x] primary repository accessible;
+- [x] required infrastructure starts;
+- [x] backend starts;
+- [x] frontend starts;
+- [x] one real business flow completes.
 
 Commit / evidence:
 
 ```text
-
+See docs/DAILY_LOG.md, D01 final verification (2026-10-13).
+Evidence archive commit: 05d0c06cd0ed6fdda2c7b9163bec27d388a8363a
+Ubuntu VM: six middleware containers Up; backend on 9090; frontend on 5173.
+User-reported successful video playback, analysis and report opening.
 ```
 
 ## Evidence B — Test
 
 Required minimum:
 
-- [ ] backend health or equivalent startup verification;
-- [ ] one end-to-end business operation.
+- [x] backend health or equivalent startup verification;
+- [x] one end-to-end business operation.
 
 Command:
 
 ```bash
-
+docker ps -a
+curl -i http://localhost:9090/health
+curl -I http://localhost:5173
+# Browser: video open/upload -> playback/seek -> submit AI analysis -> open successful report
 ```
 
 Result:
 
 ```text
-
+Docker: six middleware containers Up (MySQL and Redis healthy).
+Backend: HTTP/1.1 200 OK; {"code":0,"message":"success","data":"UP"}.
+Frontend: HTTP/1.1 200 OK; Vite ready; logged-in homepage rendered.
+E2E: user personally confirmed all four business steps succeeded; user-reported, not an automated API trace.
 ```
 
 ## Evidence C — Metric
@@ -360,19 +369,20 @@ Do not pre-fill answers here.
 ## Decision
 
 ```text
-NOT_TESTED
+PASS
 ```
 
 Verified date:
 
 ```text
-
+2026-10-13
 ```
 
 Reason:
 
 ```text
-
+A/B operational evidence complete; C correctly N/A; D closed-book oral defense PASS.
+Prior intermittent AI failures and OCR/report quality issues deferred; no performance claim.
 ```
 
 ---
