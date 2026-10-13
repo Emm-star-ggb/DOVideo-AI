@@ -1344,3 +1344,24 @@ Assessment:
 - A PASS: identifies Java runtime incompatibility; version 65 corresponds to Java 21 and version 61 to Java 17. Confirm java -version and actual runtime selection.
 - B PARTIAL: checking middleware, logs and network is directionally correct, but user did not specify three concrete diagnostic checks. Connection refused calls for verifying exact target host, port, listener and service/container status. Storage capacity is not the immediate implication of this error.
 - Next: narrow concrete troubleshooting follow-up; do not declare overall question PASS yet.
+
+
+### G01 Oral Defense — Redis Connection Refused Follow-up (2026-10-13)
+
+Status: PARTIAL; practical troubleshooting follow-up still pending.
+
+Scenario: RedisConnectionFailureException; unable to connect to Redis at localhost:6379; Connection refused.
+
+Question 1 (identify service, host, port), user answer:
+> Redis依赖出现了连接问题。目标地址为localhost和端口为6379。
+Assessment: PASS.
+
+Question 2 (give a Docker or Redis command to check service), user answer:
+> 不知道。
+Assessment: FAIL for concrete command recall. Teaching provided: docker ps; docker logs <Redis容器名>; docker exec <Redis容器名> redis-cli ping.
+
+Question 3 (container running but still connection refused), user answer:
+> 检查端口是否正确或被占用。
+Assessment: PARTIAL. Port check is relevant; also verify host/port config and whether backend runs on host or in a separate Docker container. localhost is namespace-dependent; a container's localhost is not another container.
+
+No full question PASS or G01 PASS declared. Next: short recheck of concrete Redis verification and Docker network address distinction.
