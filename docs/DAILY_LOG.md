@@ -1395,3 +1395,59 @@ Evidence C: N/A; bootstrap checks operability, not performance. Alternative: hea
 Evidence D: PASS after the recorded oral defense and targeted follow-ups for asynchronous HTTP/MQ, storage responsibilities, dependency failures, startup configuration, Docker networking and E2E proof.
 
 Deferred: intermittent AI analysis failures, OCR stderr contamination, report quality and MinIO image-registry reproducibility. No benchmark or business-code change claimed.
+
+
+---
+
+## D01 — G01 Oral Defense Completeness Audit (2026-10-13)
+
+Purpose: reconcile all G01 oral-defense exchanges available in the conversation with the entries above. This is an archival supplement, not a new examination or a change to the G01 Gate decision.
+
+### Question-by-question archive index
+
+| Sequence | Oral topic | Final outcome | Existing record / completeness |
+| --- | --- | --- | --- |
+| 1 | Why long-running AI processing should not block synchronous HTTP | PASS after multiple follow-ups | Existing 2026-10-12 async section; first two user responses previously summarized rather than quoted |
+| 2 | Five-step async ordering C/E/D/A/B | PASS | Existing async section, answer recorded as C E D A B |
+| 3 | 100 incoming tasks with capacity for 5; queueing and worker outage | PASS (user-reported recovery) | Existing async section; original answer unavailable after chat UI rollback |
+| 4 | 3-minute sync HTTP versus HTTP 202 + status lookup, including 60-second gateway timeout | PASS | Existing async section, user answer and follow-up verbatim |
+| 5 | MySQL/Redis/MinIO responsibilities and 2GB video follow-up | PASS | Existing storage responsibilities section, follow-up answers verbatim |
+| 6 | MinIO outage effects on upload, report viewing, and diagnosis | PASS | Existing MinIO failure section, answers verbatim |
+| 7 | /health versus real upload/playback/analysis evidence | PASS | Existing end-to-end evidence section, answers verbatim |
+| 8 | JDK 21 versus JDK 17; startup diagnosis; AI model and Tesseract | PASS after follow-ups | Existing startup and Redis sections, initial and follow-up answers verbatim |
+
+### Supplemental recoverable user statements for the early async question
+
+Initial user answer, as preserved in earlier conversation summary (not a verbatim full transcript):
+> 同步HTTP请求可能导致视频分析时间变长，多个任务等待一个HTTP端口造成堵塞，一个视频分析要好长时间，用户体验不佳。视频上传采用分片+整合...每一个分片处理完...判断分析任务完成。RocketMQ起到一个缓存作用.
+
+Assessment at the time: FAIL; conflated chunk upload with AI task execution and described MQ as cache. Ellipses above reflect an incomplete recovered quote; they do NOT represent exact omitted user text.
+
+First retry, recoverable answer fragments (not complete verbatim response):
+- HTTP 202 indicates request accepted, not analysis finished.
+- On RocketMQ: “不知道”.
+- On frontend: “根据返回的分析结果”.
+- On asynchronous advantages: “不知道”.
+Assessment at the time: FAIL; later recovered via ordering, queueing and timeout follow-ups.
+
+### Missing chat UI rounds: question text recovered, answer not recoverable
+
+The user explicitly reported two follow-up rounds had disappeared from the chat UI after answering the ordering exercise. The user later reconstructed the question prompts:
+
+**Queueing and worker-outage question:**
+> 假如有100个任务提交，但服务器只能同时处理5个视频，在方案A直连和方案B使用RocketMQ中，①如果使用方案B，剩下的95个任务怎么办？②若是后台AI视频分析程序突然无法执行，方案B与直连相比有什么潜在优势？
+
+User stated the question was answered and passed. Original answer and exact assessor wording are not available; retain PASS as user-reported, not as an independently recovered verbatim transcript.
+
+**Synchronous versus asynchronous HTTP question:**
+> 方案A等待3分钟视频分析完成后再响应和方案B任务接收后先返回http202再任务状态查询①对用户来说，哪个方案更好，优势在哪里？②对于系统来说，方案A会有什么隐患？方案B有解决方法吗？
+
+The user said they were composing the answer when chat rolled back. This question was subsequently re-asked and fully answered, with PASS and original answer recorded in the earlier async section. Do not treat the interrupted draft as an additional completed round.
+
+### Completeness and integrity statement
+
+- All G01 question topics and their final outcomes known from the current conversation have a persistent index in this file.
+- Where exact answers are available, original answers remain in the existing sections above; this audit avoids duplicating those long answers.
+- Where text was lost, preserve only recoverable fragments and explicitly label missing material. Do not invent missing answers or silently upgrade user-reported evidence.
+- D00/G00 oral record in this file records the four oral topics and PASS, but not complete verbatim Q&A. This audit is scoped to the G01 oral exchanges discussed here; a complete G00 transcript is not available in the present conversation.
+- Current G01 Gate decision in docs/GATES.md was already PASS at the time of this audit. This supplement does not change Gate status or claim a new runtime test.
