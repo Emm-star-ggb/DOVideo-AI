@@ -90,7 +90,7 @@ Agent fundamentals / source reading
 Current Logical Day:
 
 ```text
-D01
+D02
 ```
 
 Current Stage:
@@ -102,7 +102,7 @@ S1 — System Bootstrap
 Current Gate:
 
 ```text
-G01
+G02
 ```
 
 Gate Status:
@@ -120,13 +120,13 @@ DOVideo-AI
 Last Verified Commit:
 
 ```text
-510156d7366cf9a17d20714e02df3d5f1d8c0e30
+42d69dc45a7595727696b0e57e92fbf031b235fc
 ```
 
 Last Updated:
 
 ```text
-2026-09-24
+2026-10-13
 ```
 
 ---
@@ -197,13 +197,13 @@ Successfully run the primary project and complete one real business flow.
 
 ## User Must Do
 
-- [ ] fork/clone repository;
-- [ ] configure local environment;
-- [ ] start required infrastructure;
-- [ ] start backend;
-- [ ] start frontend;
-- [ ] execute one real request;
-- [ ] record all blockers and fixes.
+- [x] fork/clone repository;
+- [x] configure local environment;
+- [x] start required infrastructure;
+- [x] start backend;
+- [x] start frontend;
+- [x] execute one real request;
+- [x] record all blockers and fixes.
 
 ## Codex May Do
 
@@ -231,6 +231,9 @@ Successfully run the primary project and complete one real business flow.
 `G01 — System Bootstrap`
 
 ---
+
+
+D01 verified 2026-10-13: G01 PASS. See GATES.md and DAILY_LOG.md for command results, user-reported E2E outcome and oral defense.
 
 # 6. D02 — Trace One End-to-End Request
 
