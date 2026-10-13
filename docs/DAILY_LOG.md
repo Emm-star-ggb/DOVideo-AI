@@ -1329,3 +1329,18 @@ User answer (verbatim):
 Assessment: PASS for describing observed troubleshooting and OCR Chinese language support. Model change does not by itself establish definitive root cause of original failure.
 
 Next: targeted follow-up on startup diagnostic ordering and Java compatibility. G01 overall remains pending.
+
+
+### G01 Oral Defense — Startup Troubleshooting Follow-up (2026-10-13)
+
+Status: A PASS, B PARTIAL; further targeted follow-up required. Overall G01 not yet passed.
+
+Scenario: UnsupportedClassVersionError: class file version 65.0, runtime recognizes up to 61.0; then Connection refused.
+
+User original answer:
+> A、最可能的原因是JDK版本不兼容，更换项目要求的JDK版本。B、先查看其余后端中间件的状态，看它们是否正常启动。再排查日志，看看哪里出现了问题。之后再看网络和存储。
+
+Assessment:
+- A PASS: identifies Java runtime incompatibility; version 65 corresponds to Java 21 and version 61 to Java 17. Confirm java -version and actual runtime selection.
+- B PARTIAL: checking middleware, logs and network is directionally correct, but user did not specify three concrete diagnostic checks. Connection refused calls for verifying exact target host, port, listener and service/container status. Storage capacity is not the immediate implication of this error.
+- Next: narrow concrete troubleshooting follow-up; do not declare overall question PASS yet.
