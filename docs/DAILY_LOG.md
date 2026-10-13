@@ -1194,3 +1194,40 @@ docker command not found
 ```
 
 This is a blocker record only. G01 is not passed yet; execution, startup verification, one real business flow, and oral defense are still required.
+
+
+---
+
+## D01 — G01 Oral Defense Progress (2026-10-12)
+
+Gate: G01 — System Bootstrap. Oral defense remains in progress; overall Gate has NOT passed.
+
+### Operational evidence (observed in prior interactive session)
+- Ubuntu VM middleware: MySQL, Redis, MinIO, Qdrant, RocketMQ started.
+- Backend /health returned UP; frontend started.
+- User exercised registration/login, video upload/playback, AI analysis and report display.
+- Metric: N/A per G01. Outstanding quality observations: OCR stderr contamination and partial Critic validation; not a separate G01 performance threshold.
+
+### Oral defense: long-running HTTP / asynchronous video analysis
+
+**Initial response — FAIL:** User said synchronous HTTP may cause waiting/blockage; conflated chunk upload with AI task completion; called RocketMQ a cache.
+
+**First retry — FAIL:** User correctly recognized HTTP 202 as acceptance, not completion, but was unsure of RocketMQ and reasons for async execution.
+
+**Ordering exercise — PASS:** User answered `C E D A B` for submit request → enqueue task → HTTP 202 → background analysis → frontend checks completion. Assessor noted enqueue/202 ordering is implementation-dependent.
+
+**100-task / 5-worker queue scenario — PASS (user-reported recovery):** User reported two follow-up questions were lost from chat UI, and reported the assistant had passed the scenario. Exact original answers unavailable; do not reconstruct or quote them as verbatim.
+
+**Sync vs async comparison — PASS (2026-10-12):**
+- Question: Scheme A holds HTTP request for 3-minute analysis; scheme B acknowledges with HTTP 202 and later status queries. Compare user experience and system risks.
+- User original answer to user-experience part: “方案B，方案B的进度是可观看有掌握的，可以极大避免用户在等待过程中产生的焦虑与不确定性。”
+- User original answer to system-risk part: “对于系统，如果任务接收和分析过程中发生了什么错误，http只能返回错误结果，无法确认是哪一环节出错，而方案B先让http返回接收结果，可以避免这一情况”
+- Assessor: user-experience PASS; system-risk answer partial because synchronous systems can also log and diagnose errors, and 202 alone does not solve diagnostics. Follow-up required.
+- Follow-up: Gateway closes HTTP connection at 60s while AI analysis takes 180s. Explain effects under A and B.
+- User original A: “http连接在分析任务完成之前就断开，客户无法接收到分析任务的返回结果（我有疑问这时候分析任务还会接着进行吗还是因为http连接超时所以报错而停止呢？）”
+- User original B: “后端返回http 202后，http端口就被解放了，之后的任务状态会由任务状态查询来反映，因此避免了http端口因长时间等待而超时报错的问题”
+- Assessment: PASS for the HTTP timeout / async-status concept. Technical refinement: an HTTP connection closing does not *necessarily* stop backend work; behavior depends on cancellation propagation and execution architecture. The connection/request resources, not the TCP listening port itself, are released.
+
+### Next oral topics
+- Explain infrastructure services and storage responsibilities; failure scenarios; startup configuration changes; and the concrete evidence of the end-to-end operation, sampling as required by docs/GATES.md.
+- Overall G01 oral defense and final PASS are pending. No business source changes in this documentation update.
