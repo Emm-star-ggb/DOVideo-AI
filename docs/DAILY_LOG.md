@@ -1382,3 +1382,16 @@ Assessor: PASS for both, and PASS for the overall startup troubleshooting oral q
 - Container-local localhost refers to that container, not a separate Redis container. Use an appropriate service name on the same configured Docker network.
 - Previous failed/partial attempts remain preserved above as learning history.
 - Overall G01 Gate decision NOT YET PASS: final A/B/C/D evidence reconciliation remains necessary.
+
+
+## D01 — G01 final verification (2026-10-13)
+
+Final decision: PASS. Evidence A: user confirmed learning branch; Docker ps -a showed six middleware containers Up (MySQL and Redis healthy); Spring Boot JDK 21 started on port 9090; Vite frontend started on port 5173 and browser rendered logged-in homepage. Existing MinIO container was restarted after quay.io image pull returned HTTP 401.
+
+Evidence B: curl -i http://localhost:9090/health returned HTTP 200 and JSON data UP. curl -I http://localhost:5173 returned HTTP 200. User explicitly confirmed opening/uploading a video, playback and seeking, submitting AI analysis, final task success and opening the report. E2E outcome is user-reported, not an independently captured automated test.
+
+Evidence C: N/A; bootstrap checks operability, not performance. Alternative: health and E2E.
+
+Evidence D: PASS after the recorded oral defense and targeted follow-ups for asynchronous HTTP/MQ, storage responsibilities, dependency failures, startup configuration, Docker networking and E2E proof.
+
+Deferred: intermittent AI analysis failures, OCR stderr contamination, report quality and MinIO image-registry reproducibility. No benchmark or business-code change claimed.
