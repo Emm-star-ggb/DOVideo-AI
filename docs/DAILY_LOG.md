@@ -1451,3 +1451,63 @@ The user said they were composing the answer when chat rolled back. This questio
 - Where text was lost, preserve only recoverable fragments and explicitly label missing material. Do not invent missing answers or silently upgrade user-reported evidence.
 - D00/G00 oral record in this file records the four oral topics and PASS, but not complete verbatim Q&A. This audit is scoped to the G01 oral exchanges discussed here; a complete G00 transcript is not available in the present conversation.
 - Current G01 Gate decision in docs/GATES.md was already PASS at the time of this audit. This supplement does not change Gate status or claim a new runtime test.
+
+---
+
+# Reusable Oral / Test Attempt Archive Templates
+
+> Use these templates as **append-only entries within the active DXX day** after every oral answer or test run. Keep prior FAIL/PARTIAL attempts. Do not substitute a summary for a recoverable original answer. This section defines a template; it is not an executed test or oral result.
+
+## Oral attempt — ORAL-DXX-001
+
+- Date/time and timezone: `YYYY-MM-DD HH:MM TZ / UNKNOWN`
+- Logical Day / Gate: `DXX / GXX`
+- Topic / linked QA or DEBT ID: `...`
+- Attempt number / status: `1 / PASS | FAIL | PARTIAL | FOLLOW_UP_PENDING`
+- Full examiner question (verbatim):
+
+> ...
+
+- User's original answer (verbatim):
+
+> ...
+
+- Follow-up question(s) and user answer(s), verbatim:
+
+> ...
+
+- Assessment and reason: `...`
+- Correct understanding / corrections / remaining uncertainty: `...`
+- Final question-level decision: `PASS | FAIL | FOLLOW_UP_PENDING`
+- Gate-level status (separate): `...`
+- Evidence limitations: `verbatim / summary / user-reported / missing`
+- Archive verification: `GitHub commit SHA and link reported after write; do not self-reference in same commit`
+
+## Test attempt — TEST-DXX-001
+
+- Date/time and timezone: `YYYY-MM-DD HH:MM TZ / UNKNOWN`
+- Logical Day / Gate: `DXX / GXX`
+- Operator: `User | Codex | ChatGPT`
+- Test type / objective: `unit | integration | E2E | startup | benchmark | manual | other`
+- Environment and exact code revision: `...`
+- Commands / manual procedure (exact):
+
+```bash
+# ...
+```
+
+- Expected outcome: `...`
+- Observed result / stdout / stderr / screenshot or raw artifact path: `...`
+- Exit code and pass/fail/skipped counts (if applicable): `...`
+- Status: `PASS | FAIL | NOT_RUN | BLOCKED`
+- Failure cause, limitations and next action: `...`
+- Evidence provenance: `directly executed / user-provided / Codex-reported`
+- Archive verification: `GitHub commit SHA and link reported after write; do not self-reference in same commit`
+
+## Archiving discipline
+
+1. Append a record **after each attempt**, including failures and partial oral answers, before moving to the next question or test.
+2. Preserve the original answer/output and distinguish user-reported results from tool-verified observations.
+3. Add related QA/debt entries when warranted, and update Gate/learning state only when evidence changes.
+4. Commit, re-fetch and verify the actual repository content. If unsuccessful, label the record `NOT ARCHIVED` and pause or obtain explicit permission to continue.
+5. Redact secrets; never write credentials, tokens, or private keys into Git.
