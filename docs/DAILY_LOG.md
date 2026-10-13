@@ -1304,3 +1304,28 @@ Assessment: PASS for G01-level oral understanding of operational evidence.
 - Clarification: HTTP 202 acknowledges acceptance, not final persistence. Successful playback is stronger upload/storage evidence.
 - Clarification: exceptions/missing output are functional failures, while low-quality analysis content is a quality issue; they require separate investigation.
 - G01 overall remains pending final evidence review and remaining oral topics; no full Gate PASS declared.
+
+
+### G01 Oral Defense — Startup Configuration and Troubleshooting (2026-10-13)
+
+Status: PARTIAL, FOLLOW-UP PENDING. No question-level PASS yet.
+
+Question 1: Why cannot JDK 17 be assumed compatible with project requiring JDK 21?
+User answer (verbatim):
+> 源项目中使用的是jdk21，不能直接使用JDK17是因为两个版本的JDK之间虽然大体上没变化但一些部分有差别。
+
+Assessment: partial. Recognizes version differences but not source/API/bytecode compatibility; e.g. Java 21 bytecode may cause UnsupportedClassVersionError on Java 17.
+
+Question 2: At least three startup failure checks and order.
+User answer (verbatim):
+> 检查网络状态和存储空间，根据日志进行排查。
+
+Assessment: follow-up needed. Log, network and storage are relevant, but answer omitted Java version, startup configuration, and dependency service connectivity.
+
+Question 3: Explain AI model change and Tesseract Chinese package.
+User answer (verbatim):
+> 调整AI模型配置，是为了解决一开始AI分析任务流程进行中因为配置中的规定的分析限时而中断导致分析失败的问题，我们先尝试了延长任务时限，发现仍无法解决而且每次重新分析后任务会从中断处继续进行，我们猜测是这个模型的问题，加之分析时长再加长对于用户来说不算友好，故选择了更换模型，由先前的Qwen3.5-4B换为DeepSeek-V4-Flash。安装Tesseract中文包是为了解决AI分析过程中无法识别视频中的中文这一问题。
+
+Assessment: PASS for describing observed troubleshooting and OCR Chinese language support. Model change does not by itself establish definitive root cause of original failure.
+
+Next: targeted follow-up on startup diagnostic ordering and Java compatibility. G01 overall remains pending.
