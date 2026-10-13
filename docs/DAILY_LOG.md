@@ -1281,3 +1281,26 @@ Assessor decision: PASS for G01-level understanding.
 - Troubleshooting direction (network, logs) is acceptable at G01, but should later be strengthened by targeted MinIO health, object-access and backend-exception checks.
 - Important qualification: MySQL report storage is the user's hypothesis, not a source-verified DOVideo-AI implementation fact. A report could still depend on MinIO-backed images/video or object data.
 - This is a question-level PASS only. G01 overall remains IN_PROGRESS pending other oral topics and final evidence review.
+
+
+### G01 Oral Defense — End-to-End Execution Evidence (2026-10-13)
+
+Question 1: Does /health UP prove upload and AI analysis work?
+User answer (verbatim):
+> 仅仅看到后端 `/health` 返回 `UP`，能不证明视频上传和 AI 分析功能都正常。后端 `/health` 返回 `UP`，只能证明后端服务确实启动且可以运行，无法作为视频上传和AI分析功能正常的证据，要想确认功能正常，还需进行实际的业务操作，得到结果。
+
+Question 2: What actual operations demonstrate a real business flow?
+User answer (verbatim):
+> 上传了四次视频，HTTP端口返回202，同时前端页面上显示上传成功。进行了四次AI分析，返回了分析失败的结果和分析成功的报告。
+
+Question 3: How to describe successful upload/report with some analysis errors?
+User answer (verbatim):
+> 核心流程已跑通但存在局部问题，视频可以上传，AI分析成功生成报告，说明两个核心功能已经实现，但分析结果不如意，那么说明在AI分析这一块还有改进空间。
+
+Assessment: PASS for G01-level oral understanding of operational evidence.
+- Correctly distinguishes service health from end-to-end feature testing.
+- Reports four upload attempts and four analysis attempts with both failed and successful results. These are user-reported observations; not independently verified by this documentation commit.
+- Correctly avoids claiming full-system success from partial outcomes.
+- Clarification: HTTP 202 acknowledges acceptance, not final persistence. Successful playback is stronger upload/storage evidence.
+- Clarification: exceptions/missing output are functional failures, while low-quality analysis content is a quality issue; they require separate investigation.
+- G01 overall remains pending final evidence review and remaining oral topics; no full Gate PASS declared.
