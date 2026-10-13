@@ -1260,3 +1260,24 @@ Assessment:
 - Architecture specifics must be confirmed from project source code in G02/G03. No claim of verified schema or Redis task-state cache.
 
 Next oral topic: other infrastructure services, dependency failure, startup configuration, or evidence of end-to-end execution. G01 overall remains IN_PROGRESS.
+
+
+### G01 Oral Defense — MinIO Failure Scenario (2026-10-13)
+
+Question: MinIO becomes unavailable while MySQL, Redis, RocketMQ and backend remain running. Discuss new uploads, viewing previous AI reports, and troubleshooting.
+
+User answer 1 (verbatim):
+> 用户上传新视频时，可能会在上传视频时进行报错，因为MinIO服务停止，视频文件无法进行保存。
+
+User answer 2 (verbatim):
+> 用户查看之前已经生成的 AI 分析报告时，不一定会失败。之前生成的AI分析报告，应该是作为“用户进行了一次视频分析”业务中的结果数据存储与MySQL中，只是MinIO出现问题的话，MySQL的数据查询功能应该无碍，所以查看之前的分析报告应该不会失败。
+
+User answer 3 (verbatim):
+> 先判断是哪一环节出现问题，是否是因为网络原因，排除后查看日志中的相关信息。
+
+Assessor decision: PASS for G01-level understanding.
+- Correctly identifies object storage failure as a likely upload blocker.
+- Correctly recognizes that a single dependency outage does not necessarily block all other functionality.
+- Troubleshooting direction (network, logs) is acceptable at G01, but should later be strengthened by targeted MinIO health, object-access and backend-exception checks.
+- Important qualification: MySQL report storage is the user's hypothesis, not a source-verified DOVideo-AI implementation fact. A report could still depend on MinIO-backed images/video or object data.
+- This is a question-level PASS only. G01 overall remains IN_PROGRESS pending other oral topics and final evidence review.
