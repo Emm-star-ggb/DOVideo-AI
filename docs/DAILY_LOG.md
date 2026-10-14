@@ -1574,3 +1574,18 @@ User answer (verbatim):
 Assessment: PASS. Event publication failure is logged and does not change accepted MQ submission.
 
 Teaching clarification given: enum SubmissionResult, one-statement if early return, active-key cleanup on rate limiting, distinction between MQ message and status notification. Follow-up pending. Gate G02 not passed.
+
+
+#### ORAL-D02-002 — Second attempt / targeted recheck (2026-10-14, +08:00)
+
+Q1. 用户连续两次提交相同视频、相同分析目标的任务。第一次已经成功写入 Redis 活动标记，尚未过期。第二次执行 setIfAbsent() 时会返回什么？submit() 接下来会怎样执行？
+User answer (verbatim):
+> 第二次执行会返回False。submit()接下来会返回DUPLICATE，然后退出方法。
+Assessment: PASS.
+
+Q2. 用户第一次提交时成功写入 Redis 活动标记，但随后被限流。如果没有执行 redisTemplate.delete(activeKey)，用户稍后重新提交时可能遇到什么问题？
+User answer (verbatim):
+> 如果Redis活动标记未过期的话，可能会显示重复提交提交失败，但任务实际上并没有被接收。如果Redis活动标记过期的话，并且消息队列已经有空闲的话，可以成功写入创建Redis KEY并接着传递给RocketMQ。
+Assessment: PASS with qualification: key expiry alone does not guarantee acceptance; rate limit and MQ send must also succeed. MQ spare capacity is not explicitly checked in this method.
+
+ORAL-D02-002 final question-level decision: PASS after targeted recheck (2/2). First-attempt PARTIAL/FAIL preserved above. G02 overall still pending consumer tracing, runtime evidence and final defense.
