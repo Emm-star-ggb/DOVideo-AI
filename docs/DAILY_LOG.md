@@ -1589,3 +1589,10 @@ User answer (verbatim):
 Assessment: PASS with qualification: key expiry alone does not guarantee acceptance; rate limit and MQ send must also succeed. MQ spare capacity is not explicitly checked in this method.
 
 ORAL-D02-002 final question-level decision: PASS after targeted recheck (2/2). First-attempt PARTIAL/FAIL preserved above. G02 overall still pending consumer tracing, runtime evidence and final defense.
+
+
+### D02-03 — Source navigation micro-practice (2026-10-14)
+
+- **问题**：已知消费者中调用 \`rejectionReason(msg)\`，如何自主定位方法定义并读取实现？
+- **核心方法**：使用 \`rg -n 'rejectionReason\('\` 区分调用位置（第 84 行）和定义位置（第 216 行）；使用 \`sed -n '215,250p'\` 查看目标方法；首次误写 \`sed -n '215p,250p'\`，自行修正。
+- **掌握情况**：**PASS（源码定位与命令实践）**。用户提供了成功执行的终端输出；方法的业务语义尚需后续独立口试验证。G02 整体仍进行中。
