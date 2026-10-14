@@ -1611,3 +1611,18 @@ User answer (verbatim):
 Assessment: NOT YET PASS; needs explanation and targeted recheck. Teaching provided: structural invalidity cannot be repaired by unchanged retry; \`failedTaskService.record\` records failure and \`rocketMQTemplate.convertAndSend(deadLetterTopic, msg)\` forwards to failure topic. Per code comment at least one trace must succeed before acknowledging invalid message.
 
 Status: PARTIAL (Q1 PASS, Q2 pending). G02 overall remains IN_PROGRESS.
+
+
+#### ORAL-D02-003 — Second attempt / targeted recheck (2026-10-14, +08:00)
+
+Q1: 一条 RocketMQ 消息缺少 \`mediaId\`，消费者重试 3 次，为什么仍然可能无法成功？这与数据库短暂不可用有什么区别？
+User answer (verbatim):
+> 因为消息缺少必要信息，无法通过结构性检验，无论多少次都没办法成功。与数据库短暂不可用的暂时性、可修复性错误不同，该任务属于消息结构性错误，无法通过重试恢复。
+Assessment: PASS.
+
+Q2: 对于结构性非法消息，\`failedTaskService.record()\` 和向 \`deadLetterTopic\` 发送消息分别有什么作用？为什么至少要有一种方式成功？
+User answer (verbatim):
+> failedTaskService.record() 可以记录失败任务消息的信息，向 deadLetterTopic 发送消息将异常消息转投到失败主题。至少有一种方式成功才能说明异常消息得到了处理，为了避免系统将异常消息忽略，无法处理。
+Assessment: PASS. Qualification: traceable handling is not successful repair or analysis completion.
+
+Final decision for ORAL-D02-003: PASS after second attempt (2/2). First-attempt PARTIAL preserved above. G02 overall remains IN_PROGRESS; normal-message execution path and runtime evidence still pending.
