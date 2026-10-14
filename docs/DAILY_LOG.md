@@ -1626,3 +1626,23 @@ User answer (verbatim):
 Assessment: PASS. Qualification: traceable handling is not successful repair or analysis completion.
 
 Final decision for ORAL-D02-003: PASS after second attempt (2/2). First-attempt PARTIAL preserved above. G02 overall remains IN_PROGRESS; normal-message execution path and runtime evidence still pending.
+
+
+### ORAL-D02-004 — First attempt (2026-10-14, +08:00)
+
+Q1: \`lock.tryLock()\` 返回 \`false\` 后，为什么不会继续执行 AI 分析？这里使用分布式锁的主要目的是什么？
+User answer (verbatim):
+> 不知道。
+Assessment: FAIL.
+
+Q2: 在什么情况下，消费者会直接复用历史分析结果，而不调用 \`aiService.asyncAnalyze()\`？
+User answer (verbatim):
+> 出现AgentLoopService.BudgetExceededException e错误时，和Exception e并且!permanent && acquired && attempt > 0 && attempt < MAX_DELIVERY_ATTEMPTS。不知道。
+Assessment: FAIL; confused result-reuse path with exception handlers.
+
+Q3: 某次 AI 分析发生可恢复异常，当前是第 1 次投递。代码为什么设置 \`retrying = true\`，并且不立即删除 \`activeKey\`？
+User answer (verbatim):
+> retrying = true为了标志这个消息是失败后重试的，立即删除activeKey的话，前端会以为任务结束，注释说会重新塞进来一份相同工作是为什么？
+Assessment: PARTIAL; recognized retry state and activity flag, asked why another same request could be admitted.
+
+Overall ORAL-D02-004 first attempt: FAIL. Teaching given on \`tryLock\` and \`return\`, result reuse via completedKey/checkpoint/reuseResult, and Redis \`setIfAbsent(activeKey)\` duplicate suppression during retry. Preserve this first attempt; recheck pending. G02 overall IN_PROGRESS.
