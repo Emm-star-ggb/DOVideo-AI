@@ -1511,3 +1511,39 @@ The user said they were composing the answer when chat rolled back. This questio
 3. Add related QA/debt entries when warranted, and update Gate/learning state only when evidence changes.
 4. Commit, re-fetch and verify the actual repository content. If unsuccessful, label the record `NOT ARCHIVED` and pause or obtain explicit permission to continue.
 5. Redact secrets; never write credentials, tokens, or private keys into Git.
+
+
+### ORAL-D02-001 — Controller and Service identification (2026-10-14, +08:00)
+
+Gate: G02; topic: D02-01, request entry and Spring MVC basics.
+Evidence provenance: user-provided terminal output and verbatim chat answers; source path cross-checked on GitHub. No runtime trace was executed.
+
+First attempt:
+Q1: 哪个 Controller 负责接收 AI 视频分析请求？请给出文件路径、类名和方法名。
+User answer (verbatim):
+> 这个问题我不知道，仅能猜测一下，你看一下我说的对不对，可以向我普及一下相关知识。我猜是`` `AnalysisController ``。文件路径为`server/src/main/java/com/example/server/controller/AnalysisController.java`，类名和方法名不知道，感觉好像没有出现类似内容。
+Assessment: PARTIAL. Correct file/controller identification, missing Java method name.
+
+Q2: 这个 Controller 调用了哪个 Service 方法？
+User answer (verbatim):
+> 调用了`@RequestMapping`、`@PostMapping`、`@GetMapping`（在此声明。我对Spring-boot框架没有了解，如果你觉得我需要补这方面知识，你可以为我列出清单，我们可以之后补）。
+Assessment: FAIL. Request mapping annotations are not Service methods.
+
+Second attempt — closed-book recheck:
+Q1: `@PostMapping("/ai")` 和 `aiAnalyze` 分别是什么？为什么它们不是一回事？
+User answer (verbatim):
+> @PostMapping("/ai")是注解，用来声明接收POST请求的接口。  aiAnalyze是Controler中的方法。前者是调用的接口声明，后者是使用的方法。
+Assessment: PASS. Clarification: annotation maps request to handler; it does not itself invoke the method.
+
+Q2: `AnalysisController` 为什么还要调用 `AnalysisDispatchService`？Controller 和 Service 的职责有什么区别？
+User answer (verbatim):
+> 前者需要使用后者中的方法，有些方法写在Service层比起写在Contorller层更加易于维护。Controller主要负责接收请求，参数和调用服务，而Service负责具体业务的执行。
+Assessment: PASS.
+
+Q3: 如果请求 `POST /analysis/ai` 返回 HTTP 202，能不能直接认定 AI 分析已经成功生成报告？为什么？
+User answer (verbatim):
+> 不能。因为返回HTTP 202只能说明分析任务被接收，不能证明AI分析依据成果生成报告，是否成功生成分析报告要看前端是否返回了可以查看的报告。
+Assessment: PASS. Clarification: use task status, persisted report and logs as additional evidence.
+
+Final question-level decision: PASS (second attempt 3/3). G02 gate status remains NOT_STARTED / pending actual request trace, execution evidence and final oral defense. Do not conflate question-level PASS with Gate PASS.
+Archive timestamp precision: date known; exact time not recorded.
