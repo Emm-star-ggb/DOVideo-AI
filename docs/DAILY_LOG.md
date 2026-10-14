@@ -1547,3 +1547,30 @@ Assessment: PASS. Clarification: use task status, persisted report and logs as a
 
 Final question-level decision: PASS (second attempt 3/3). G02 gate status remains NOT_STARTED / pending actual request trace, execution evidence and final oral defense. Do not conflate question-level PASS with Gate PASS.
 Archive timestamp precision: date known; exact time not recorded.
+
+
+### ORAL-D02-002 — Dispatch submission first attempt (2026-10-14, +08:00)
+
+Gate: G02. Status: PARTIAL (Q1 PARTIAL, Q2 FAIL, Q3 PASS, Q4 PASS); targeted follow-up pending. Evidence: user-reported source search and original answers in chat, not a runtime execution trace.
+
+Q1. 为什么要先执行 Redis 的 setIfAbsent，再发送 RocketMQ 消息？如果 setIfAbsent 返回 false，会发生什么？
+User answer (verbatim):
+> 先执行Redis的setIfAbsent进行去重判断后再创建分析任务，创建成功后返回true，才能进行下一步发送RocketMQ，以保证任务不被重复创建占用空间和任务que'shu'chuang'ji确实创建。从代码来看如果返回false，SubmissionResult.DUPLICATE无法返回，不过SubmissionResult.DUPLICATE是什么？
+Assessment: PARTIAL. Redis true means active key set, not task creation; false causes early return DUPLICATE.
+
+Q2. 为什么限流失败后要执行 redisTemplate.delete(activeKey)？如果不删除，可能有什么问题？
+User answer (verbatim):
+> 不知道。可能为了防止占据空间或者消息队列。
+Assessment: FAIL. Cleanup prevents a rejected submission from retaining an active marker and blocking retry.
+
+Q3. rocketMQTemplate.convertAndSend() 返回后，能否认为 AI 分析已经完成？为什么？
+User answer (verbatim):
+> 不能，rocketMQTemplate.convertAndSend() 返回只能说明新的任务消息AnalysisTaskMsgch创建成功，AI分析是另外的进程进行，无法由它确定是否分析完成。
+Assessment: PASS with qualification: successful send is evidence of message submission, not consumer execution or final completion; separate process not yet verified.
+
+Q4. 如果 MQ 消息发送成功，但 taskEventService.publishAnalysis() 抛出异常，最终返回 ACCEPTED 还是 FAILED？为什么？
+User answer (verbatim):
+> ACCEPTED。相应的try-catch语句中对于taskEventService.publishAnalysis() 抛出异常只有返回日志警告消息，return语句仍然返回ACCEPTED。不过这个功能是干嘛的？
+Assessment: PASS. Event publication failure is logged and does not change accepted MQ submission.
+
+Teaching clarification given: enum SubmissionResult, one-statement if early return, active-key cleanup on rate limiting, distinction between MQ message and status notification. Follow-up pending. Gate G02 not passed.
