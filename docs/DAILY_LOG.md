@@ -1596,3 +1596,18 @@ ORAL-D02-002 final question-level decision: PASS after targeted recheck (2/2). F
 - **问题**：已知消费者中调用 \`rejectionReason(msg)\`，如何自主定位方法定义并读取实现？
 - **核心方法**：使用 \`rg -n 'rejectionReason\('\` 区分调用位置（第 84 行）和定义位置（第 216 行）；使用 \`sed -n '215,250p'\` 查看目标方法；首次误写 \`sed -n '215p,250p'\`，自行修正。
 - **掌握情况**：**PASS（源码定位与命令实践）**。用户提供了成功执行的终端输出；方法的业务语义尚需后续独立口试验证。G02 整体仍进行中。
+
+
+### ORAL-D02-003 — Message validation and poison-message handling (2026-10-14)
+
+Q1: \`rejectionReason()\` 返回 \`null\` 和非 \`null\` 分别代表什么？
+User answer (verbatim):
+> \`rejectionReason()\` 返回 \`null\` 代表消息通过结构性检验；返回非 \`null\`代表消息未通过结构性检验。
+Assessment: PASS.
+
+Q2: 为什么结构性非法的消息不能简单地反复重试？根据 \`discardPoisonMessage()\` 的注释，系统准备如何处理这些消息？
+User answer (verbatim):
+> 为什么结构性非法的消息不能简单地反复重试？不知道。不知道，注释看不太懂，落台账和转投是什么意思？
+Assessment: NOT YET PASS; needs explanation and targeted recheck. Teaching provided: structural invalidity cannot be repaired by unchanged retry; \`failedTaskService.record\` records failure and \`rocketMQTemplate.convertAndSend(deadLetterTopic, msg)\` forwards to failure topic. Per code comment at least one trace must succeed before acknowledging invalid message.
+
+Status: PARTIAL (Q1 PASS, Q2 pending). G02 overall remains IN_PROGRESS.
