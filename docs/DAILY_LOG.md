@@ -1717,3 +1717,18 @@ User answer (verbatim):
 Assessment: PARTIAL. Located inner and outer catch, but did not explain exception propagation to \`VideoAnalysisConsumer.onMessage()\`.
 
 Overall ORAL-D02-005 first attempt: PARTIAL; targeted recheck needed for Q1 and Q3. G02 overall IN_PROGRESS.
+
+
+#### ORAL-D02-005 — Second attempt / targeted recheck (2026-10-16, +08:00)
+
+Q1: HTTP 接口已经返回 202，但 RocketMQ 消费者正在执行 \`aiService.asyncAnalyze()\`。为什么这不代表 \`asyncAnalyze()\` 一定创建了新线程？
+User answer (verbatim):
+> 因为asyncAnalyze()方法中没有显式创建线程、提交线程池任务或通过 @Async 调度的代码，所以无法通过aiService.asyncAnalyze()正在执行来确定一定创建了新线程。
+Assessment: PASS.
+
+Q2: \`agentLoopService.run()\` 抛出异常后，为什么 \`VideoAnalysisConsumer.onMessage()\` 的 \`catch\` 能捕获它？请用自己的话描述异常从 \`AgentLoopService\` 到消费者的传播过程。
+User answer (verbatim):
+> 不知道。
+Assessment: FAIL. Teaching given: exception propagates up call stack, inner \`catch\` rethrows, outer \`catch\` saves failure and wraps ordinary exception, consumer catches propagated exception.
+
+Overall ORAL-D02-005 after second attempt: PARTIAL (Q1 PASS, Q2 pending). First attempt retained. G02 IN_PROGRESS.
