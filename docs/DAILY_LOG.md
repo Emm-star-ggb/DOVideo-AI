@@ -1646,3 +1646,23 @@ User answer (verbatim):
 Assessment: PARTIAL; recognized retry state and activity flag, asked why another same request could be admitted.
 
 Overall ORAL-D02-004 first attempt: FAIL. Teaching given on \`tryLock\` and \`return\`, result reuse via completedKey/checkpoint/reuseResult, and Redis \`setIfAbsent(activeKey)\` duplicate suppression during retry. Preserve this first attempt; recheck pending. G02 overall IN_PROGRESS.
+
+
+#### ORAL-D02-004 — Second attempt / targeted recheck (2026-10-16, +08:00)
+
+Q1: 消费者 A 已经持有某任务的锁，消费者 B 的 \`tryLock()\` 返回 \`false\`。B 接下来会怎样？为什么？
+User answer (verbatim):
+> B接下来会退出onMessage（）方法，等待消费者持有的锁释放出来后才能执行。
+Assessment: PARTIAL. B exits current \`onMessage()\` invocation; zero-argument \`tryLock()\` does not wait for the lock or automatically resume after A unlocks.
+
+Q2: 历史结果复用成功后，为什么不会执行 \`aiService.asyncAnalyze()\`？指出起决定作用的语句。
+User answer (verbatim):
+> 历史结果复用成功后，直接return退出onMessage（）方法。
+Assessment: PASS.
+
+Q3: 原任务正在等待 RocketMQ 重试时，如果 \`activeKey\` 被提前删除，提交端再次收到同样的分析请求，可能发生什么？
+User answer (verbatim):
+> setIfAbsent判断该任务未执行，将该分析请求传递给RecketMQ，此时有两条相同的任务等待RecketMQ执行。
+Assessment: PASS, with precision note: \`setIfAbsent\` tests absence of the Redis key, not actual AI execution; a duplicate message may be submitted.
+
+Overall ORAL-D02-004 after second attempt: PARTIAL (Q1 misconception remains). First-attempt FAIL preserved. G02 IN_PROGRESS.
