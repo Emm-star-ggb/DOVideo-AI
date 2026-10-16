@@ -1681,3 +1681,39 @@ User answer (verbatim):
 Assessment: PASS (a new invocation must retry acquisition).
 
 Overall ORAL-D02-004: PASS after third attempt (2/2 recheck); prior FAIL and PARTIAL retained. Open investigation: does \`if (!acquired) return;\` acknowledge a still-needed task without a retry/recovery mechanism? G02 remains IN_PROGRESS.
+
+
+### ORAL-D02-005 — First attempt (2026-10-16, +08:00)
+
+Q1: 为什么 \`asyncAnalyze()\` 不能仅凭方法名就判断它一定启动了新线程？目前源码能证明什么？
+User answer (verbatim):
+> 仅靠方法名无法确定该方法中具体进行了什么操作，是否启动了新线程等信息还需要看具体的源码。能证明什么？
+Assessment: PARTIAL. Correct that name is insufficient; missing observed synchronous direct call path and lack of visible explicit thread creation in supplied method.
+
+Q2: \`checkpointService.loadResult()\` 返回已有有效结果时，代码会怎样处理？还会执行 \`agentLoopService.run()\` 吗？
+User answer (verbatim):
+> checkpointService.loadResult() 返回已有有效结果时，代码会接着进行执行persistResult(mediaFile, agentState);
+> telemetry.increment(traceId, "checkpointHits", 1);然后return退出方法。
+Assessment: PASS.
+
+Q3: \`agentLoopService.run()\` 抛出普通运行时异常后，\`AiService\` 会怎样处理？消费者为什么能够感知到失败？
+User answer (verbatim):
+> 执行对于的catch语句，catch (RuntimeException e) {
+>                 telemetry.stage(traceId, TaskStage.AGENT_LOOP.name(), agentStarted, false);
+>                 throw e;抛出异常e。之后执行对应的catch语句catch (Exception e) {
+>             try {
+>                 checkpointService.saveFailure(mediaId, userGoal, resolvedMode, currentStage, e);
+>             } catch (RuntimeException checkpointError) {
+>                 e.addSuppressed(checkpointError);
+>                 log.error("agent_failure_checkpoint_write_failed traceId={} mediaId={}",
+>                         traceId, mediaId, checkpointError);
+>             }
+>             log.error("agent_analysis_failed traceId={} mediaId={}", traceId, mediaId, e);
+>             if (e instanceof AgentLoopService.BudgetExceededException budgetExceeded) {
+>                 throw budgetExceeded;
+>             }
+>             throw new IllegalStateException("AI analysis failed", e);
+>         } 。不知道。
+Assessment: PARTIAL. Located inner and outer catch, but did not explain exception propagation to \`VideoAnalysisConsumer.onMessage()\`.
+
+Overall ORAL-D02-005 first attempt: PARTIAL; targeted recheck needed for Q1 and Q3. G02 overall IN_PROGRESS.
