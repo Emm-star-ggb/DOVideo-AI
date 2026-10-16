@@ -1666,3 +1666,18 @@ User answer (verbatim):
 Assessment: PASS, with precision note: \`setIfAbsent\` tests absence of the Redis key, not actual AI execution; a duplicate message may be submitted.
 
 Overall ORAL-D02-004 after second attempt: PARTIAL (Q1 misconception remains). First-attempt FAIL preserved. G02 IN_PROGRESS.
+
+
+#### ORAL-D02-004 — Third attempt / lock semantics recheck (2026-10-16, +08:00)
+
+Q1: 假设消费者 A 持有锁，消费者 B 执行 \`tryLock()\` 返回 \`false\`，随后 A 释放锁。B 刚才退出的 \`onMessage()\` 会不会自动恢复执行？
+User answer (verbatim):
+> 不会自动恢复执行。但这样因为无法获取锁而暂停的任务该怎么办呢？不能依靠用户重新提交任务吧，后面有对应的处理吗？
+Assessment: PASS for non-resumption. User raised valid further investigation about potential loss of work on lock contention and normal consumer return.
+
+Q2: 如果 B 想再次获取这把锁，需要满足什么条件？
+User answer (verbatim):
+> 消费者B调用onMessage()方法。
+Assessment: PASS (a new invocation must retry acquisition).
+
+Overall ORAL-D02-004: PASS after third attempt (2/2 recheck); prior FAIL and PARTIAL retained. Open investigation: does \`if (!acquired) return;\` acknowledge a still-needed task without a retry/recovery mechanism? G02 remains IN_PROGRESS.
