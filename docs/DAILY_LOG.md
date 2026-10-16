@@ -1740,3 +1740,13 @@ Question: 为什么异常是在 `B()` 中抛出的，却能够被 `A()` 中的 `
 User answer (verbatim):
 > 因为A()中调用了B()，A()调用B()时，B()抛出异常，A()检测到异常转向执行catch语句，异常被A()中的catch捕获
 Assessment: PASS for basic exception propagation. Precision: exception propagates through the call stack; A does not explicitly poll for errors. Project-specific explanation of AgentLoopService → AiService → VideoAnalysisConsumer remains to be verified before ORAL-D02-005 overall PASS. G02 IN_PROGRESS.
+
+
+#### ORAL-D02-005 — Fourth attempt / project-level exception propagation (2026-10-16, +08:00)
+
+Question: `AgentLoopService.run()` 抛出普通运行时异常后，异常经过 `AiService.asyncAnalyze()` 的哪两层处理？为什么最终能够进入 `VideoAnalysisConsumer.onMessage()` 的 `catch (Exception e)`？
+User answer (verbatim):
+> `AgentLoopService.run()` 抛出普通运行时异常后，  异常先经过AiService.asyncAnalyze()内层的catch，异常未得到处理，之后又传递给AiService.asyncAnalyze()外层catch，外层catch再抛出异常，因为VideoAnalysisConsumer.onMessage()调用了AiService.asyncAnalyze()，所以异常向上传递到消费者
+Assessment: PASS. Inner catch records failed telemetry and rethrows; outer catch attempts to save failure checkpoint and wraps ordinary exception in IllegalStateException, which propagates to caller's catch.
+
+Final ORAL-D02-005: PASS after fourth attempt (Q1 threading semantics, Q2 checkpoint early return, Q3 exception propagation). Previous attempts preserved. D02-05 oral complete; full G02 remains IN_PROGRESS pending additional source tracing and runtime evidence.
