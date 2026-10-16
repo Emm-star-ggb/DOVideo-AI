@@ -1732,3 +1732,11 @@ User answer (verbatim):
 Assessment: FAIL. Teaching given: exception propagates up call stack, inner \`catch\` rethrows, outer \`catch\` saves failure and wraps ordinary exception, consumer catches propagated exception.
 
 Overall ORAL-D02-005 after second attempt: PARTIAL (Q1 PASS, Q2 pending). First attempt retained. G02 IN_PROGRESS.
+
+
+#### ORAL-D02-005 — Third attempt / basic Java exception propagation (2026-10-16, +08:00)
+
+Question: 为什么异常是在 `B()` 中抛出的，却能够被 `A()` 中的 `catch` 捕获？
+User answer (verbatim):
+> 因为A()中调用了B()，A()调用B()时，B()抛出异常，A()检测到异常转向执行catch语句，异常被A()中的catch捕获
+Assessment: PASS for basic exception propagation. Precision: exception propagates through the call stack; A does not explicitly poll for errors. Project-specific explanation of AgentLoopService → AiService → VideoAnalysisConsumer remains to be verified before ORAL-D02-005 overall PASS. G02 IN_PROGRESS.
