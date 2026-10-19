@@ -1774,3 +1774,23 @@ User answer (verbatim):
 Assessment: PARTIAL. Identifies Markdown conversion, MediaFile update and cache invalidation, but not why cache invalidation is needed.
 
 Overall ORAL-D02-006 first attempt: FAIL; targeted remediation required. Instruction given: context checkpoint allows reuse, double-check after lock prevents duplicate ASR/OCR, throw propagates for possible retry, cache invalidation prevents stale user-list reads. G02 IN_PROGRESS.
+
+
+#### ORAL-D02-006 — Second attempt / targeted recheck (2026-10-19, +08:00)
+
+Q1: 消费者 A 已经完成视频的 ASR/OCR 并保存了 Checkpoint。消费者 B 等锁后，为什么应该重新检查 Checkpoint，而不是直接重新执行 ASR/OCR？
+User answer (verbatim):
+> 重新检查Checkpoint是为了在“等待锁的期间，视频上下文已经构建”的情况，这样再次检查，如果有可复用的结果，就可以使用复用结果，而不是再从头重新执行一遍分析视频上下文的流程，浪费资源和时间。同样，如果直接执行ASR/OCR，那么可能会发生在等待锁的期间已有视频上下文但又执行了一遍视频上下文分析。
+Assessment: PASS. Correctly explains double-check after lock and avoiding redundant ASR/OCR.
+
+Q2: B 等待 Context 锁超时，而且没有可复用结果。为什么应该抛出异常，而不是直接 `return`？
+User answer (verbatim):
+> 因为抛出异常的话，异常就可以沿着调用一路返回至消费者处，由消费者决定下一步该如何处理。但直接rerurn的话，流程就直接结束了，如果是消费者锁这样当然没有问题，因为是同一个任务，有一个已经在处理了那就不需要开另一个了，但视频分析中有不同模式，对于同一个视频的不同分析模式来说，它们用的是同一个视频上下文，仅在没等到Context 锁的情况下，只能说视频上下文未就位，但该模式的分析任务也没有完成，所以不能直接return返回，而是要等待消费者如何决定。
+Assessment: PASS. Correctly distinguishes unfinished context from completed task and exception propagation. Caveat: Consumer lock normal return is safe only when equivalent work and recovery are verified; potential task-loss risk remains untested.
+
+Q3: 数据库中 `aiSummary` 已更新，但 Redis 中还缓存着旧的视频列表。如果不调用 `invalidateUserList()`，用户可能遇到什么问题？
+User answer (verbatim):
+> 用户可能会遇到明明视频分析已经完成，但仍然读不了分析结果的问题。因为在查询读取时，实现从Redis中查询读取，如果Redis中没有，那么再从数据库中查询读取。不调用invalidateUserList()，数据库中数据已经更新，aiSummary已经写入，但Redis中还是原数据aiSummary为空，那么数据不一致，但优先读取Redis中的数据，就会出现明明分析完成但分析结果仍显示为空。
+Assessment: PASS. Correctly explains stale cache after database update. Specific cache-aside implementation remains to be verified in source.
+
+Final ORAL-D02-006: PASS on second attempt (3/3). First attempt retained. G02 IN_PROGRESS.
