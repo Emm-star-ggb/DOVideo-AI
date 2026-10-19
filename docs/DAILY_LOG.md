@@ -1794,3 +1794,24 @@ User answer (verbatim):
 Assessment: PASS. Correctly explains stale cache after database update. Specific cache-aside implementation remains to be verified in source.
 
 Final ORAL-D02-006: PASS on second attempt (3/3). First attempt retained. G02 IN_PROGRESS.
+
+
+#### ORAL-D02-007 — First attempt (2026-10-19, +08:00)
+
+Q1: 你之前学到 `AiService.asyncAnalyze()` 不能凭方法名判断是否创建线程。为什么现在可以判断 `VideoContextService.build()` 存在并发执行？请指出源码证据。
+User answer (verbatim):
+> 因为这次VideoContextService.build()中有创建线程的代码List<String> uploadedEvidenceFrames = new CopyOnWriteArrayList<>();
+>         CountDownLatch branchesFinished = new CountDownLatch(2);而且两个线程没有规定先后顺序，是并发执行。
+Assessment: PARTIAL. CopyOnWriteArrayList and CountDownLatch are concurrency utilities, not thread-creation evidence. The submitted branches via asrExecutor/ocrExecutor and Future are the relevant evidence; submitBranch implementation remains to inspect.
+
+Q2: 两个任务已经提交，代码却先等待 ASR，再等待关键帧。为什么这不意味着两个任务一定是串行执行？为什么使用同一个 deadline？
+User answer (verbatim):
+> 串行执行是一个任务执行完，才开始下一个任务。先等待ASR，后等待关键帧，不能作为关键帧在ASR执行完成后才开始执行的证据。使用同一个deadline是为了保证整个阶段的时间，因为两个任务几乎是在同时执行的。
+Assessment: PASS. Correct distinction between submission and awaiting; shared deadline bounds waiting.
+
+Q3: 如果视频上下文构建超时，代码为什么不能无条件立刻删除 `workDir`？`cleanupWorkDir = false` 表示什么？
+User answer (verbatim):
+> 因为如果有分支还在运行的话，仍然需要访问临时目录中的资源，这时如果删除了临时目录，执行的分支就会报错。cleanupWorkDir = false 表示清除临时目录失败，目前仍有分支在运行暂时还不能清理。我有一个问题，如果已经超时，是不是代表任务失败，那么这个时候分支是否执行还重要吗？
+Assessment: PASS. Correct rationale; precision: false means defer cleanup, not that deletion was attempted and failed. User question answered: main task timeout does not ensure worker termination; cancellation/interruption may be cooperative.
+
+Overall ORAL-D02-007 first attempt: PARTIAL (Q1 recheck needed; Q2/Q3 PASS). G02 IN_PROGRESS.
