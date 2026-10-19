@@ -1815,3 +1815,22 @@ User answer (verbatim):
 Assessment: PASS. Correct rationale; precision: false means defer cleanup, not that deletion was attempted and failed. User question answered: main task timeout does not ensure worker termination; cancellation/interruption may be cooperative.
 
 Overall ORAL-D02-007 first attempt: PARTIAL (Q1 recheck needed; Q2/Q3 PASS). G02 IN_PROGRESS.
+
+
+#### ORAL-D02-007 — Second attempt / concurrency evidence recheck (2026-10-19, +08:00)
+
+Question: 请指出 `VideoContextService.build()` 中，哪两处代码证明 ASR 和关键帧提取被提交为独立的任务？`CopyOnWriteArrayList` 和 `CountDownLatch` 在这里为什么不能作为创建线程的证据？
+User answer (verbatim):
+> Future<BranchResult<TranscriptSegment>> transcriptFuture = submitBranch(
+>                     asrExecutor,
+>                     branchesFinished,
+>                     () -> transcriptionService.transcribe(
+>                             readableVideoPath, workDir.resolve("audio"), traceId));
+>             Future<BranchResult<FramePart>> frameFuture = submitBranch(
+>                     ocrExecutor,
+>                     branchesFinished,
+>                     () -> extractKeyFrames(
+>                             readableVideoPath, workDir.resolve("frames"), traceId, uploadedEvidenceFrames));因为两个方法都是关于线程安全的，而非创建线程的代码，所以无法直接作为创建线程的证据。
+Assessment: PASS. Correctly identifies two executor-based submitBranch calls returning Futures. Precision: CopyOnWriteArrayList is a thread-safe collection; CountDownLatch is a synchronization primitive, not a thread creation API. submitBranch implementation not yet inspected.
+
+Final ORAL-D02-007: PASS on second attempt. First-attempt PARTIAL retained. G02 overall IN_PROGRESS; submitBranch/cancelBranches/finishContext and runtime evidence remain to be checked.
