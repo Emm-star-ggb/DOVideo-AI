@@ -1750,3 +1750,27 @@ User answer (verbatim):
 Assessment: PASS. Inner catch records failed telemetry and rethrows; outer catch attempts to save failure checkpoint and wraps ordinary exception in IllegalStateException, which propagates to caller's catch.
 
 Final ORAL-D02-005: PASS after fourth attempt (Q1 threading semantics, Q2 checkpoint early return, Q3 exception propagation). Previous attempts preserved. D02-05 oral complete; full G02 remains IN_PROGRESS pending additional source tracing and runtime evidence.
+
+
+#### ORAL-D02-006 — First attempt (2026-10-19, +08:00)
+
+Q1: 为什么 \`resolveContext()\` 在尝试获取分布式锁后，还要再次检查 Checkpoint 和内容复用结果？如果不重新检查，可能出现什么问题？
+User answer (verbatim):
+> 不知道。这个checkpoint是干什么的？请为我介绍一下。
+Assessment: FAIL. User requested explanation of checkpoint and double-check after lock.
+
+Q2: 两个消费者同时处理相同视频。如果其中一个正在构建上下文，另一个等待超时且没有命中复用结果，后者会怎样处理？这与 Consumer 中 \`tryLock()\` 失败后的处理有什么区别？
+User answer (verbatim):
+> 不知道。
+Assessment: FAIL. Needs contrast of normal return vs throw and upstream retry handling.
+
+Q3: Agent 成功生成结果后，\`persistResult()\` 做了什么？最终报告保存在哪里？为什么还要调用 \`invalidateUserList()\`？
+User answer (verbatim):
+> 执行了下面语句:
+>         mediaFile.setAiSummary(agentState.result().toMarkdown());
+>         mediaFileMapper.updateById(mediaFile);
+>         mediaService.invalidateUserList(mediaFile.getUserId());
+> 将结果转化为markdown，写入aiSummary。更新数据库记录，是相关用户列表缓存失效。前两布我都知道为什么，最后一步呢？是为什么啊？
+Assessment: PARTIAL. Identifies Markdown conversion, MediaFile update and cache invalidation, but not why cache invalidation is needed.
+
+Overall ORAL-D02-006 first attempt: FAIL; targeted remediation required. Instruction given: context checkpoint allows reuse, double-check after lock prevents duplicate ASR/OCR, throw propagates for possible retry, cache invalidation prevents stale user-list reads. G02 IN_PROGRESS.
