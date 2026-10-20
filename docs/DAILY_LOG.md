@@ -1834,3 +1834,24 @@ User answer (verbatim):
 Assessment: PASS. Correctly identifies two executor-based submitBranch calls returning Futures. Precision: CopyOnWriteArrayList is a thread-safe collection; CountDownLatch is a synchronization primitive, not a thread creation API. submitBranch implementation not yet inspected.
 
 Final ORAL-D02-007: PASS on second attempt. First-attempt PARTIAL retained. G02 overall IN_PROGRESS; submitBranch/cancelBranches/finishContext and runtime evidence remain to be checked.
+
+
+#### ORAL-D02-008 — First attempt (2026-10-20, +08:00)
+
+Q1: 为什么 ASR 分支抛出异常后，OCR 分支仍然可能成功，整个 VideoContext 也可能成功构建？请结合 `submitBranch()` 和 `finishContext()` 解释。
+User answer (verbatim):
+> 因为在submitBranch()方法中，对于分支异常的处理是返回一个失败结果BranchResult.Filed(e)。另外，在finishedContext()中也提供了对应的处理，如果两个分支都失败，才会抛出异常，若只有一个分支失败另一个分支成功，那么在记录对应的失败后并删除失败分支中间产生的数据后，方法仍会i继续进行，会尝试用成功分支中的信息进行分析并构建上下文。
+Assessment: PASS, with corrections: actual API is BranchResult.failure(e); empty merged segments still fail; explicit evidence-frame cleanup is in OCR failure branch, not generic all branches.
+
+Q2: `Future.cancel(true)` 已经调用，为什么不能马上删除工作目录？`CountDownLatch` 在这里解决了什么问题？
+User answer (verbatim):
+> Future.cancel(true)被调用，分支只是被中断，不是取消执行，如果中断失败的话，后台可能仍在继续执行。这时删除工作目录，在执行的任务访问工作目录里的资源时就会报错。不过既然已经超时，报错又怎么了呢？CountDownLatch用来表示分支已经完成并退出。
+Assessment: PASS. Understands cancellation is not guaranteed termination, and latch signals branch wrapper completion. Follow-up question about effects after parent failure answered: resource consumption, side effects, file lifecycle and later retries still matter.
+
+Q3: 如果 ASR/OCR 构建超时，旧分支迟迟不退出，而 RocketMQ 又重试了任务，可能出现哪些工程风险？请至少说明两个，并给出一个你认为值得验证的测试。
+User answer (verbatim):
+> 1.重试任务无法进行，因为锁资源还被旧分支占据，可能会导致任务资源一直被占据，出现旧任务进行不下去，新任务无法进行的局面。
+> 其它的不知道了。
+Assessment: FAIL. No evidence that ASR/OCR branches retain contextLock after outer resolveContext finally; misses resource contention, duplicate work, retained workDir and test design.
+
+Overall ORAL-D02-008 first attempt: PARTIAL (Q1 PASS, Q2 PASS, Q3 FAIL). Targeted recheck required. G02 IN_PROGRESS.
