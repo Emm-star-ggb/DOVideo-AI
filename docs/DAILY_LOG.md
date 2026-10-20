@@ -1905,3 +1905,21 @@ User answer (verbatim):
 Assessment: PASS. Correct maxRounds loop bound and validation/save distinction; assumes validateResult throws for invalid results as indicated by method semantics.
 
 Final ORAL-D02-009: PASS on second attempt. First attempt PARTIAL retained. Follow-up source inspection: checkpointService.loadCriticState and saveExecutionState persistence contract. G02 IN_PROGRESS.
+
+
+#### DAILY-INTERVIEW-2026-10-20 — ASR/OCR partial failure and finishContext (provisional)
+
+Question: ASR succeeds while OCR fails after partially uploading evidence frames to MinIO. Explain finishContext's treatment of the branch results, uploaded objects, video context, design trade-offs, and edge risks.
+
+User answer (verbatim):
+> 系统会保存ASR分支的结果，并删除已上传的证据帧，会根据ASR结果中的有效语音片段进行视频的上下文分析，并保存结果。设计取舍为舍去整个流程和信息的完整性以换得更高的分析成功率，边界风险为如果ASR中的有效语音片段蕴含信息很少或者实际为误导信息的话，那么分析结果可能完全错误。
+
+Assessment (provisional, source verification pending):
+- Technical correctness: 34/50; Principle understanding: 22/30; Clarity: 14/20; Total: 70/100; provisional FAIL (<80).
+- Strength: recognizes graceful degradation and analysis-quality risks of single-modality evidence.
+- Gaps: cleanup scope and trigger (MinIO partial uploads), distinction between context assembly/persistence and final Agent/report success; orphan resources, overlapping retries, idempotency/consistency; evidence quality.
+- Reason: extrapolated concrete cleanup and save behavior from intended business design without explaining exact condition and code branches.
+- Source-verification limit: reviewed AGENTS.md and GATES.md but did not verify finishContext's source; claimed implementation behaviors are NOT code-confirmed.
+- Related interview fundamentals: Future/cancellation and exception propagation; Saga-style compensation/outbox vs MinIO cross-resource consistency; graceful degradation and evidence confidence.
+- Follow-up: inspect finishContext and OCR cleanup catch/finally paths; locate MinIO object upload/delete ownership; test ASR success + OCR partial upload + exception and OCR failure + retry; re-evaluate result upon code verification.
+- Gate G02 unchanged; daily oral grade is not a Gate verdict.
