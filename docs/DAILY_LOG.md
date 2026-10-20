@@ -1890,3 +1890,18 @@ User answer (verbatim):
 Assessment: PARTIAL. Correct no third round, but omitted validateResult and saveResult conditions. Reaching maxRounds and warning stage do not necessarily mean final task failure or guaranteed success.
 
 Overall ORAL-D02-009 first attempt: PARTIAL (Q1 PARTIAL, Q2 PASS, Q3 PARTIAL). Recheck Q1 and Q3. G02 IN_PROGRESS.
+
+
+#### ORAL-D02-009 — Second attempt / targeted recheck (2026-10-20, +08:00)
+
+Q1: MQ 重试时，读取到一个 `result != null`、`critique == null`、`round = 1` 的 AgentState。`runWithinBudget()` 接下来会调用什么方法？为什么不必重新执行 Executor？
+User answer (verbatim):
+> critiqueRound方法。因为此前Executor草稿已经保存，result！= null也表明可以读取到Executor结果。
+Assessment: PASS. Correctly identifies critiqueRound resume and reuse of Executor draft. Precision: result != null alone does not prove persistence/readability; the full resume condition also requires critique == null and round > 0, and checkpointService.loadCriticState implementation remains to be inspected.
+
+Q3: `maxRounds = 2`，第二轮 Critic 仍未通过。Agent 是否继续第三轮？为什么最终结果可能保存成功，也可能失败？
+User answer (verbatim):
+> 不会进行第三轮，因为循环终止的条件是round<=maxRounds，第二轮结束后循环结束。之后由validateResult负责最终校验，如果结果符合标准，那么保存结果；如果不符合标准，那么抛出异常，结果保存失败。
+Assessment: PASS. Correct maxRounds loop bound and validation/save distinction; assumes validateResult throws for invalid results as indicated by method semantics.
+
+Final ORAL-D02-009: PASS on second attempt. First attempt PARTIAL retained. Follow-up source inspection: checkpointService.loadCriticState and saveExecutionState persistence contract. G02 IN_PROGRESS.
