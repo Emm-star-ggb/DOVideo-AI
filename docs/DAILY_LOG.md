@@ -1855,3 +1855,17 @@ User answer (verbatim):
 Assessment: FAIL. No evidence that ASR/OCR branches retain contextLock after outer resolveContext finally; misses resource contention, duplicate work, retained workDir and test design.
 
 Overall ORAL-D02-008 first attempt: PARTIAL (Q1 PASS, Q2 PASS, Q3 FAIL). Targeted recheck required. G02 IN_PROGRESS.
+
+
+#### ORAL-D02-008 — Second attempt / timeout-retry risk recheck (2026-10-20, +08:00)
+
+Question: 一个视频分析任务已经超时，`cancelBranches()` 请求取消，但旧的 OCR 分支仍未退出。主任务抛出异常，随后 RocketMQ 重新投递了任务。即使旧的 Context 锁已经释放，为什么旧 OCR 分支和新任务仍可能互相影响？请指出至少两种风险，并设计一个可以观察其中一种风险的测试。
+
+User answer (verbatim):
+> 风险一，旧OCR分支会和新任务一起抢夺线程池，CPU等资源。
+> 风险二，旧分支执行时的临时目录仍然存在，在代码中尚未发现该情况下对资源的清理，造成中间文件残留。
+> 测试，设法使一个分支超时，并且不响应中断请求，观察它的线程，临时目录的情况。
+
+Assessment: PASS. Identifies contention for executor worker threads and CPU, retained workDir and possible file residue, and a controlled non-interruptible timeout test. Refinement: describe pool worker occupancy/queue contention rather than "competing for a thread pool" as a lock; test should specify observable logs/cleanup/overlap criteria and run in isolation.
+
+Final ORAL-D02-008: PASS on second attempt. First attempt PARTIAL and Q3 FAIL retained. Source-derived risks not yet runtime-verified. G02 IN_PROGRESS.
