@@ -1869,3 +1869,24 @@ User answer (verbatim):
 Assessment: PASS. Identifies contention for executor worker threads and CPU, retained workDir and possible file residue, and a controlled non-interruptible timeout test. Refinement: describe pool worker occupancy/queue contention rather than "competing for a thread pool" as a lock; test should specify observable logs/cleanup/overlap criteria and run in isolation.
 
 Final ORAL-D02-008: PASS on second attempt. First attempt PARTIAL and Q3 FAIL retained. Source-derived risks not yet runtime-verified. G02 IN_PROGRESS.
+
+
+#### ORAL-D02-009 — First attempt (2026-10-20, +08:00)
+
+Q1: Executor 已经生成结果，但 Critic 调用失败。为什么重试时可以不重新执行 Executor？请指出保存和恢复分别依赖什么条件。
+User answer (verbatim):
+> 因为在调用Critic之前，Executor的草稿就已经保存下来了。保存依赖Executor生成结果，并且mediaId不为空。恢复我没有找到相关代码。
+Assessment: PARTIAL. Save timing and mediaId correct; missed runWithinBudget resume branch (result != null, critique == null, round > 0), with savedState loaded by loadCriticState. Actual persistence/read semantics still require inspection.
+
+Q2: 如果 `deepSeekUtils.critique()` 返回通过，能否直接认为 Critic 最终通过？为什么？
+User answer (verbatim):
+> 不能，还要经过critique = enforceStructureBounds(result, critique, profile);
+>         critique = enforceEvidenceBounds(context, result, critique);结构校验和证据校验，最后通过才能说明Critic最终通过。
+Assessment: PASS. Recognizes deterministic structure/evidence checks after model critique; normalizeCritique also applies.
+
+Q3: 如果 `maxRounds = 2`，第二轮 Critic 仍未通过，Agent 会继续执行第三轮吗？最终是否一定失败？请结合 `runWithinBudget()` 和 `critiqueRound()` 解释。
+User answer (verbatim):
+> 不会，已经达到最大轮次Critic就会结束。critiqueRound()中显示当达到最大轮次时，就会返回警告和结果。
+Assessment: PARTIAL. Correct no third round, but omitted validateResult and saveResult conditions. Reaching maxRounds and warning stage do not necessarily mean final task failure or guaranteed success.
+
+Overall ORAL-D02-009 first attempt: PARTIAL (Q1 PARTIAL, Q2 PASS, Q3 PARTIAL). Recheck Q1 and Q3. G02 IN_PROGRESS.
