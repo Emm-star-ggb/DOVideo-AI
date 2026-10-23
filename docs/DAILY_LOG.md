@@ -1943,3 +1943,18 @@ User answer (verbatim):
 Assessment: PASS. Correct conditional last-writer-wins risk and distinction between SQL capability and demonstrated runtime concurrency. Also depends on same unique key.
 
 Overall ORAL-D02-010 first attempt: PARTIAL (Q1 PARTIAL, Q2 FAIL, Q3 PASS). Recheck Q1/Q2; G02 IN_PROGRESS.
+
+
+#### ORAL-D02-010 — Second attempt (2026-10-23, +08:00)
+
+Q1 original answer:
+> MySQL 查询返回 null时，read()返回null；MySQL 查询抛出异常时，read()抛出异常throw new IllegalStateException("读取 Agent Checkpoint 失败: " + checkpointName, e);
+
+Q1 assessment: PASS. Correct distinction between absent database record and query exception.
+
+Q2 original answer:
+> redis提前缓存了新的Critic状态，那么会造成redis中为新的critic状态，但MySQL中仍为旧的Critic状态，数据不一致，如果此时进行查询，会直接获取redis中错误的critic状态。当前afterCommit()通过注册一个回调，保证正常事务执行下，必须得数据库提交成功后，才能继续进行redis的更新。不会，数据库已提交，那么checkpoint已经保存于数据库中，即使Redis更新失败，之后也可以通过数据库来恢复，重新更新。
+
+Q2 assessment: PASS. Correctly explains after-commit cache update and DB recovery on Redis failure. Caveat: a valid but stale Redis cache hit does not trigger automatic database comparison.
+
+Final D02-10 oral result: PASS on second attempt. First attempt PARTIAL remains recorded. G02 remains IN_PROGRESS.
