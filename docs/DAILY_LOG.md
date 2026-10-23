@@ -1923,3 +1923,23 @@ Assessment (provisional, source verification pending):
 - Related interview fundamentals: Future/cancellation and exception propagation; Saga-style compensation/outbox vs MinIO cross-resource consistency; graceful degradation and evidence confidence.
 - Follow-up: inspect finishContext and OCR cleanup catch/finally paths; locate MinIO object upload/delete ownership; test ASR success + OCR partial upload + exception and OCR failure + retry; re-evaluate result upon code verification.
 - Gate G02 unchanged; daily oral grade is not a Gate verdict.
+
+
+#### ORAL-D02-010 — First attempt (2026-10-23, +08:00)
+
+Q1: `loadCriticState()` 读取 Checkpoint 时 Redis 连接失败，但 MySQL 正常。系统会如何处理？如果 MySQL 中也没有对应记录，又会返回什么？
+User answer (verbatim):
+> 系统会在日志中写入警告，然后在MySQL中重新读取Checkpoint。如果MySQL中也没有对应记录，会抛出异常throw new IllegalStateException("读取 Agent Checkpoint 失败: " + checkpointName, e);
+Assessment: PARTIAL. Correct Redis warning and MySQL fallback; incorrect absent-row behavior. read() explicitly returns null when findPayload() returns null. IllegalStateException wraps exceptions in DB read/deserialization, not absence.
+
+Q2: 为什么 `write()` 要在 MySQL 事务提交后才更新 Redis？如果 MySQL 已成功提交，但 Redis 写入失败，会发生什么？
+User answer (verbatim):
+> 不知道。
+Assessment: FAIL. Remediation: transaction commit first prevents exposing uncommitted/rolled-back state via Redis; cacheField catches RuntimeException, logs and attempts eviction, DB remains source of truth.
+
+Q3: 假设两个执行流程确实会写入同一条 `criticState` 记录。A 先保存完整 Critic 状态，B 后保存旧 Executor 草稿。根据当前 Upsert SQL，可能发生什么？为什么不能仅凭这段 SQL 就断言线上一定存在 Bug？
+User answer (verbatim):
+> 可能会发生旧草稿覆盖完整Critic状态，变为result!=null，criticResult == null。因为触发这个覆盖状态的前提是两个执行流程处理同一个视频，同一个目标，且A提交在前B提交在后，而且没有在运行时验证，无法确定一定会出现该种情况。
+Assessment: PASS. Correct conditional last-writer-wins risk and distinction between SQL capability and demonstrated runtime concurrency. Also depends on same unique key.
+
+Overall ORAL-D02-010 first attempt: PARTIAL (Q1 PARTIAL, Q2 FAIL, Q3 PASS). Recheck Q1/Q2; G02 IN_PROGRESS.
