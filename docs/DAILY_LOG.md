@@ -9,25 +9,25 @@
 Current Logical Day:
 
 ```text
-D01
+D02
 ```
 
 Current Stage:
 
 ```text
-S1 — System Bootstrap
+S2 — Verified Request Flow
 ```
 
 Current Gate:
 
 ```text
-G01
+G02
 ```
 
 Current Gate Status:
 
 ```text
-NOT_STARTED
+IN_PROGRESS
 ```
 
 Primary Project:
@@ -70,7 +70,7 @@ Last Evidence Commit:
 Last Updated:
 
 ```text
-2026-09-24
+2026-10-25
 ```
 
 ---
@@ -1989,3 +1989,43 @@ User answer: Correctly selected that it proves the Checkpoint persistence layer 
 Assessment: PASS. Boundary understood: this alone does not prove the full Agent business path naturally triggers the interleaving or that a fix is effective.
 
 Scope correction: D02/G02 is defined in LEARNING_PLAN.md and GATES.md as tracing and verifying one end-to-end request flow (G02 — Verified Request Flow). Further concurrency investigation is not required for the current G02 unless it is necessary to explain a verified link in that request path. Return to tracing the request and its result-delivery path; record speculative concurrency risks as open questions, not established defects.
+
+
+#### ORAL-D02-11-06 — SSE event delivery and targeted rechecks (2026-10-25, +08:00)
+
+Scope: continue D02/G02 end-to-end request/result-delivery tracing. These are closed-book oral checks and source-reading exercises, not runtime integration tests.
+
+Q1 — Initial attempt: Explain how a COMPLETED event reaches the browser, why Redis Pub/Sub is involved, and what an SSE disconnect means.
+User answer (verbatim):
+> 不知道
+
+Assessment: FAIL (initial attempt). Required targeted explanation of the event-delivery chain and distinction between event transport and AI task execution.
+
+Source reviewed:
+- `VideoAnalysisConsumer.onMessage()` calls `taskEventService.publishAnalysis(...)`.
+- `TaskEventService.publishAnalysis()` routes to `publish()`.
+- `publish()` serializes the key/event and uses Redis Pub/Sub; if the receiver count is null/zero or a RuntimeException occurs, it falls back to `publishLocal()`.
+- Redis callback `onMessage(Message, byte[])` parses the payload and calls `publishLocal(key, event)`.
+- `publishLocal()` finds emitters in the current JVM's `subscribers` map and invokes `send()`.
+- `send()` calls `emitter.send(SseEmitter.event().name("task-status").data(event))`; for terminal events it removes and completes the emitter. On IOException/IllegalStateException it removes the emitter and completes it with error.
+
+Targeted Q1:
+Question: What do `onMessage()` and `publishLocal()` each do?
+User answer (verbatim):
+> TaskEventService发布事件，经过Redis Pub/Sub广播将任务消息传递给持有SSE连接的后端实例。收到事件的方法调用SeeEmitter.send()方法向浏览器发送数据。我目前知道了SSE和Redis PUB/SUB 的作用，但在其中onMessage()、publishLocal()充当什么角色我还不清楚。
+Assessment: PARTIAL. Correct high-level Redis/SSE roles; unable initially to explain the two intermediate methods. Explanation provided: `onMessage()` is the Redis message-listener callback that parses the Redis payload; `publishLocal()` routes the parsed event to matching SSE emitters in that JVM.
+
+Targeted Q2:
+Question: If an instance receives the Redis event but `subscribers.get(key)` returns null, will that instance call `send()`? Does that prove browsers on other instances cannot receive the event?
+User answer (verbatim):
+> 不会，emitter为空，直接return退出方法。不一定，事件会由Reids广播到所有实例，如果有实例拥有SSE订阅，那么就可以由这个实例将事件发送至浏览器。
+Assessment: PASS. Correctly distinguishes per-instance local emitter lists from Redis cross-instance event propagation. Precision: the source checks whether the list reference is null; it does not explicitly check whether the list is empty. Redis Pub/Sub does not persist messages or guarantee replay after subscriber disconnection.
+
+Q3 — pending:
+Question: If analysis results are saved to MySQL but the browser disconnects while COMPLETED is being sent, how does `send()` handle the connection; is the analysis result lost; and how does reopening the panel recover the current state?
+Status: NOT ANSWERED. Do not mark the full D02-11 oral check complete until this is answered and evaluated.
+
+Runtime test evidence:
+- No runtime/integration test was run as part of these SSE oral checks.
+- No test command, test result, or test commit is claimed by this entry.
+- D02/G02 remains IN_PROGRESS; this oral record does not substitute for end-to-end HTTP → MQ → Agent → persistence → result-delivery evidence.
