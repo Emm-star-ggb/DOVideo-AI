@@ -2021,9 +2021,25 @@ User answer (verbatim):
 > 不会，emitter为空，直接return退出方法。不一定，事件会由Reids广播到所有实例，如果有实例拥有SSE订阅，那么就可以由这个实例将事件发送至浏览器。
 Assessment: PASS. Correctly distinguishes per-instance local emitter lists from Redis cross-instance event propagation. Precision: the source checks whether the list reference is null; it does not explicitly check whether the list is empty. Redis Pub/Sub does not persist messages or guarantee replay after subscriber disconnection.
 
-Q3 — pending:
+Q3 — first attempt (2026-10-25, +08:00):
 Question: If analysis results are saved to MySQL but the browser disconnects while COMPLETED is being sent, how does `send()` handle the connection; is the analysis result lost; and how does reopening the panel recover the current state?
-Status: NOT ANSWERED. Do not mark the full D02-11 oral check complete until this is answered and evaluated.
+
+User answer (verbatim):
+> 1. `TaskEventService.send()` 会如何处理这个断开的连接？不知道。
+> 2. AI 分析结果是否因此丢失？为什么？不会，因为Checkpoint 已经保存到 MySQL，这代表分析结果已经保存到数据库中，虽然SSE连接断开，事件无法发送，但并不会影响保存在数据库中的分析结果。
+> 3. 用户重新打开分析面板时，前端通过agent-status接口恢复状态。后端又通过什么方法判断是否已有结果？不知道。
+
+Assessment:
+- Q1: FAIL / targeted recheck needed. In `send()`, `emitter.send(...)` may throw `IOException` or `IllegalStateException`; the catch branch calls `remove(key, emitter)`, then `emitter.completeWithError(e)`, and logs the stream closure. It does not roll back the already persisted Agent checkpoint.
+- Q2: PASS. Correctly separates durable analysis-result persistence from the best-effort SSE notification. A disconnect can prevent the browser receiving that event, but does not by itself delete the MySQL checkpoint.
+- Q3: FAIL / targeted recheck needed. The verified recovery path is `GET /analysis/analysis-status` → `AnalysisController.analysisStatus()` → `AnalysisStatusService.current(id, normalizedGoal, mode)`. That service calls `checkpointService.loadResult(id, goal, mode)`; when the result exists, it returns `TaskStatus.completed(result)`. In the frontend, `openAgent()` requests `/analysis/analysis-status` and, if the state is `COMPLETED`, displays `status.result`. Note: this endpoint is `analysis-status`, not `agent-status`.
+
+Overall targeted Q3: Q1 FAIL, Q2 PASS, Q3 FAIL. D02-11 remains IN_PROGRESS; a short targeted recheck is still required.
+
+Runtime test evidence:
+- No runtime/integration test was run as part of these SSE oral checks.
+- No test command, test result, or test commit is claimed by this entry.
+- D02/G02 remains IN_PROGRESS; this oral record does not substitute for end-to-end HTTP → MQ → Agent → persistence → result-delivery evidence.
 
 Runtime test evidence:
 - No runtime/integration test was run as part of these SSE oral checks.
