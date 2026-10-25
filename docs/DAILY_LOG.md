@@ -2061,3 +2061,22 @@ Assessment: PASS (90/100: technical correctness 45/50; principles 27/30; clarity
 - Missing explicit conditional: a valid checkpoint result causes COMPLETED status, and frontend assigns status.result to sidebar.value.content when status.state is COMPLETED.
 - Remaining oral gap: TaskEventService.send() exception handling on SSE disconnect (remove emitter, completeWithError, log). Not yet rechecked.
 - No runtime test was executed. G02 remains IN_PROGRESS.
+
+
+#### ORAL-D02-11-08 — SSE exception handling oral recheck (2026-10-25)
+
+Question: What does TaskEventService.send do after SseEmitter.send throws IOException, and does this invalidate the saved MySQL Checkpoint?
+
+First answer (verbatim):
+> 删除对应的SSE列表，向日志写入警告
+
+First assessment: FAIL. The code removes the failed emitter with remove(key, emitter), calls emitter.completeWithError(e), and writes a debug log, not a warning. The first answer omitted completeWithError and did not address persisted results.
+
+Targeted recheck question: (1) Fill in emitter.________(e) after remove(key, emitter). (2) Does SSE delivery failure invalidate the Checkpoint stored in MySQL?
+
+Retest answer (verbatim):
+> 1.completeWithError。2.不会，SSE发送失败不会影响数据库。
+
+Retest assessment: PASS (2/2). Correctly identifies completeWithError(e) and separates SSE transport errors from persisted Checkpoint data.
+
+Final D02-11 SSE delivery oral result: PASS after retest. First FAIL retained. No runtime test executed or claimed. G02 remains IN_PROGRESS.
