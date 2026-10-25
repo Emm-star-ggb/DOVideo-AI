@@ -2045,3 +2045,19 @@ Runtime test evidence:
 - No runtime/integration test was run as part of these SSE oral checks.
 - No test command, test result, or test commit is claimed by this entry.
 - D02/G02 remains IN_PROGRESS; this oral record does not substitute for end-to-end HTTP → MQ → Agent → persistence → result-delivery evidence.
+
+
+#### ORAL-D02-11-07 — Q3 targeted recheck: result recovery path (2026-10-25, +08:00)
+
+Question: If MySQL has saved the result but the SSE COMPLETED event was missed, explain how reopening the analysis panel retrieves and displays the result from frontend through Checkpoint.
+
+User answer (verbatim):
+> 前端通过接口GET/analysis/analysis-status发出分析状态请求，按通过openAgent()、AynalysisController.analysisStatus()，AnalysisStatusService.current() 、checkpointService.loadResult()链路调用，得到结果后，前端将其放入sidebar.value.content()展示。
+
+Assessment: PASS (90/100: technical correctness 45/50; principles 27/30; clarity 18/20).
+- Correct end-to-end recovery chain: frontend openAgent() → GET /analysis/analysis-status → AnalysisController.analysisStatus() → AnalysisStatusService.current() → checkpointService.loadResult().
+- Correctly understands that the UI can recover persisted analysis independently of receiving the SSE COMPLETED notification.
+- Corrections: controller class name is AnalysisController, not AynalysisController; sidebar.value.content is a property, not content() method.
+- Missing explicit conditional: a valid checkpoint result causes COMPLETED status, and frontend assigns status.result to sidebar.value.content when status.state is COMPLETED.
+- Remaining oral gap: TaskEventService.send() exception handling on SSE disconnect (remove emitter, completeWithError, log). Not yet rechecked.
+- No runtime test was executed. G02 remains IN_PROGRESS.
