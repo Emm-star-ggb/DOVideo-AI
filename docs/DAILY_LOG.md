@@ -1958,3 +1958,23 @@ Q2 original answer:
 Q2 assessment: PASS. Correctly explains after-commit cache update and DB recovery on Redis failure. Caveat: a valid but stale Redis cache hit does not trigger automatic database comparison.
 
 Final D02-10 oral result: PASS on second attempt. First attempt PARTIAL remains recorded. G02 remains IN_PROGRESS.
+
+
+#### ORAL-D02-11-05 — Concurrency test design (2026-10-25, +08:00)
+
+Q1: To reproduce the stale Executor draft overwriting a completed Critic state, what execution order must the test control, and why is merely starting two threads insufficient?
+User answer (verbatim):
+> 要控制B执行完成后A再继续执行。单纯只启动两个线程，无法保证想要的执行顺序，我们所测试的覆盖问题需要特定顺序下才会出现，只启动两个线程，无法保证最后的结果无问题是因为覆盖问题不会发生还是因为顺序不符合所以没有发生。
+Assessment: PASS. Correctly identifies deterministic interleaving as essential.
+
+Q2: Which fields should be checked after the test to determine whether a complete Critic state was overwritten by an old draft?
+User answer (verbatim):
+> result是否不为空,criticResult是否为空,checkpoint
+Assessment: PARTIAL. Correctly identifies result and critique presence as key signals, but the assertion should explicitly verify persisted payload and expected Critic fields/state (e.g. critique != null and passed status when applicable). Confirm actual accessor name from AgentState source; code previously uses critique(), not criticResult().
+
+Q3: To validate the fix, what else should be verified besides the test passing?
+User answer (verbatim):
+> 验证在特定的会发生覆盖的执行顺序下，测试是否能通过。
+Assessment: PARTIAL. Recognizes the controlled schedule, but must distinguish regression reproduction from fix validation: under the buggy implementation, the test should deterministically expose the invariant violation; after the fix, the same interleaving should preserve the completed Critic state. Add assertions that both writes targeted the same media_id/checkpoint_key and that the intended order actually occurred, using latches/barriers rather than sleeps.
+
+Overall: Q1 PASS, Q2 PARTIAL, Q3 PARTIAL. D02-11 remains IN_PROGRESS; next step is refine test assertions and propose a concrete test before implementation.
