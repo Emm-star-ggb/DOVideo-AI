@@ -1978,3 +1978,14 @@ User answer (verbatim):
 Assessment: PARTIAL. Recognizes the controlled schedule, but must distinguish regression reproduction from fix validation: under the buggy implementation, the test should deterministically expose the invariant violation; after the fix, the same interleaving should preserve the completed Critic state. Add assertions that both writes targeted the same media_id/checkpoint_key and that the intended order actually occurred, using latches/barriers rather than sleeps.
 
 Overall: Q1 PASS, Q2 PARTIAL, Q3 PARTIAL. D02-11 remains IN_PROGRESS; next step is refine test assertions and propose a concrete test before implementation.
+
+
+#### ORAL-D02-11-05B — Test-layer understanding check (2026-10-25)
+
+Question: What does a deterministic Checkpoint write-layer test directly prove if an old Executor draft overwrites a completed Critic state?
+
+User answer: Correctly selected that it proves the Checkpoint persistence layer can lose Critic state under that controlled write order.
+
+Assessment: PASS. Boundary understood: this alone does not prove the full Agent business path naturally triggers the interleaving or that a fix is effective.
+
+Scope correction: D02/G02 is defined in LEARNING_PLAN.md and GATES.md as tracing and verifying one end-to-end request flow (G02 — Verified Request Flow). Further concurrency investigation is not required for the current G02 unless it is necessary to explain a verified link in that request path. Return to tracing the request and its result-delivery path; record speculative concurrency risks as open questions, not established defects.
