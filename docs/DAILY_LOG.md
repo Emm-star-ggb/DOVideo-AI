@@ -2203,3 +2203,13 @@ Targeted recheck assessment: PASS. Correctly identifies refreshMediaList() and f
 User answer: "不知道。前端从响应的status.result字段取得报告内容。"
 
 Assessment: PARTIAL. Frontend status.result is correct. Backend loading method: AnalysisStatusService.current() calls checkpointService.loadResult(id, normalizedGoal, mode). No runtime test; G02 remains unpassed.
+
+
+#### D02-12 Q4-C targeted recheck (2026-10-26)
+
+User answer (verbatim):
+> 1.调用AnalysisStatusService的agentStatus()方法。
+> 2.通过checkpointService.loadResult()方法加载结果。
+> 3.如果结果存在，前端从status.result字段取得报告内容。
+
+Assessment: PARTIAL. Correctly identified checkpointService.loadResult() and frontend status.result. Method name in AnalysisStatusService is current(), not agentStatus(). Correct path: AnalysisController.analysisStatus() -> AnalysisStatusService.current() -> checkpointService.loadResult() -> TaskStatus result -> frontend status.result. No runtime test; G02 remains unpassed.
