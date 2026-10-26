@@ -2196,3 +2196,10 @@ Targeted recheck Q4-A answer:
 > 调用refreshMediaList() 和 finish()两个方法。finish()方法负责更新面板的结果状态。
 
 Targeted recheck assessment: PASS. Correctly identifies refreshMediaList() and finish(), and identifies finish() as updating frontend panel/result state. No runtime test executed; G02 remains unpassed.
+
+
+#### D02-12 Q4-B (2026-10-26)
+
+User answer: "不知道。前端从响应的status.result字段取得报告内容。"
+
+Assessment: PARTIAL. Frontend status.result is correct. Backend loading method: AnalysisStatusService.current() calls checkpointService.loadResult(id, normalizedGoal, mode). No runtime test; G02 remains unpassed.
