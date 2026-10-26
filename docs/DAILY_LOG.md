@@ -2181,3 +2181,18 @@ User answer (verbatim):
 > 3.为了避免数据库事务回滚但Redis已经更新而造成的数据不一致。
 
 Assessment: PASS (3/3). Correctly identifies MySQL as durable source, Redis as a rebuildable cache, and transaction-commit ordering as protection against cache/database inconsistency. No runtime test executed; G02 remains unpassed pending complete request-flow evidence and end-to-end verification.
+
+
+#### ORAL-D02-12 Q4 SSE result delivery (2026-10-26)
+
+First answer:
+> 1.借助TaskEvenService.publishAnalysis()发布分析状态事件后，通过Redis PUB/SUB广播到所在频道的所有后端实例中，找到持有SSE连接的后端实例。
+> 2.后端通过SeeEmitter.send()方法把事件发送给浏览器。
+> 3.不知道。
+
+First assessment: PARTIAL. Redis Pub/Sub and SseEmitter.send() correctly identified; frontend COMPLETED handling missing.
+
+Targeted recheck Q4-A answer:
+> 调用refreshMediaList() 和 finish()两个方法。finish()方法负责更新面板的结果状态。
+
+Targeted recheck assessment: PASS. Correctly identifies refreshMediaList() and finish(), and identifies finish() as updating frontend panel/result state. No runtime test executed; G02 remains unpassed.
