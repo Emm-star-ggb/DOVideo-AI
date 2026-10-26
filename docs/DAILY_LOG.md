@@ -2102,3 +2102,22 @@ User answer (verbatim):
 > 调用AnalysisService的onMessage()来提交任务，这个方法通过RecketMQ中间件把任务交给后台处理。
 
 Assessment: FAIL. Correct middleware concept (RocketMQ), but wrong service and method; conflates producer with consumer. Verified path: AnalysisController.aiAnalyze() -> AnalysisDispatchService.submit() -> RocketMQ -> VideoAnalysisConsumer.onMessage(). The submit method dispatches the message; onMessage is the consumer callback. Next recheck should require distinguishing producer and consumer without prompting the full chain. No runtime test performed; G02 remains unpassed.
+
+
+#### ORAL-D02-12 — Producer/consumer targeted rechecks Q1-B and Q1-C (2026-10-26)
+
+Q1-B prompt: Explain responsibilities of AnalysisDispatchService.submit() and VideoAnalysisConsumer.onMessage(), and the middleware between them.
+
+Q1-B user answer (verbatim):
+> AnalysisDispatchService.submit() 负责提交分析任务，并将消息传递给RocketMQ， VideoAnalysisConsumer.onMessage()负责将消息传递给消费者。它们之间通过RocketMQ传递任务。
+
+Q1-B assessment: PARTIAL. Correctly identifies submit() as dispatching to RocketMQ and RocketMQ as the asynchronous transport. Incorrectly describes onMessage() as forwarding to the consumer; VideoAnalysisConsumer is itself the consumer.
+
+Q1-C prompt: Once RocketMQ delivers a valid task message to VideoAnalysisConsumer, does onMessage() forward or consume it? What is the next business goal?
+
+Q1-C user answer (verbatim):
+> 消费并处理消息。下一步目标是对消息异步进行处理。
+
+Q1-C assessment: PASS for basic consumer responsibility. The user now distinguishes consumption from forwarding, but the next-step description lacks the concrete call into AI processing; examine that in the next question.
+
+Oral-only evidence. No runtime test executed. G02 is not passed.
