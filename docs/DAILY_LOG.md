@@ -2213,3 +2213,13 @@ User answer (verbatim):
 > 3.如果结果存在，前端从status.result字段取得报告内容。
 
 Assessment: PARTIAL. Correctly identified checkpointService.loadResult() and frontend status.result. Method name in AnalysisStatusService is current(), not agentStatus(). Correct path: AnalysisController.analysisStatus() -> AnalysisStatusService.current() -> checkpointService.loadResult() -> TaskStatus result -> frontend status.result. No runtime test; G02 remains unpassed.
+
+
+#### D02-12 Q4-D targeted recheck (2026-10-26)
+
+Prompt: Which AnalysisStatusService method is called by AnalysisController.analysisStatus(), and how does it load the Agent result?
+
+User answer (verbatim):
+> 具体调用AnalysisStatusService.current()方法。 该方法再通过checkpointService.loadResult()加载Agent分析结果。
+
+Assessment: PASS. Correctly names AnalysisStatusService.current() and checkpointService.loadResult(). Together with the prior correct frontend status.result answer, the status-recovery/report-source oral subtopic is passed. This is oral evidence only; end-to-end runtime evidence and G02 gate evaluation remain outstanding.
