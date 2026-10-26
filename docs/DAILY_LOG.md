@@ -2149,3 +2149,13 @@ Follow-up question from user: "另外，后端异步处理是在onMessage()方�
 Clarification given: Analysis is asynchronous relative to the original HTTP request because AnalysisDispatchService.submit() dispatches a message to RocketMQ. The consumer callback VideoAnalysisConsumer.onMessage() invokes AiService.asyncAnalyze() in its main call chain; the method name alone does not prove a new thread is created. VideoContextService.build() explicitly submits ASR and key-frame branches to separate executors for parallel work.
 
 No runtime test executed; G02 remains unpassed.
+
+
+#### ORAL-D02-12 — Targeted recheck Q3-A: Executor draft checkpoint (2026-10-26)
+
+Question: Name the AgentCheckpointService method called after Executor generates a draft, and state what it saves.
+
+User answer (verbatim):
+> AgentCheckpointService.saveExecutionState()：保存 Executor 生成的草稿状态。
+
+Assessment: PASS. Correct method and responsibility. The saved AgentState contains the generated result while Critic state is still null, allowing later Critic processing or checkpoint-based resumption. Next: targeted recheck Q3-B for the method that saves Critic validation state. No runtime test executed; G02 remains unpassed.
