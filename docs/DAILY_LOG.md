@@ -2121,3 +2121,13 @@ Q1-C user answer (verbatim):
 Q1-C assessment: PASS for basic consumer responsibility. The user now distinguishes consumption from forwarding, but the next-step description lacks the concrete call into AI processing; examine that in the next question.
 
 Oral-only evidence. No runtime test executed. G02 is not passed.
+
+
+#### ORAL-D02-12 — Q2: consumer enters AI analysis (2026-10-26)
+
+Question: Once VideoAnalysisConsumer.onMessage() receives a valid message and execution conditions are met, which service/method begins AI analysis, and what does it do?
+
+User answer (verbatim):
+> 调用AiService的asyncAnalyze()方法，负责分析视频上下文并对视频上下文的分析结果持久化。
+
+Assessment: PASS for identifying AiService.asyncAnalyze() and the broad role. Clarification: asyncAnalyze() loads an existing result checkpoint first; if no reusable result exists, it resolves/reuses VideoContext, calls AgentLoopService.run() for Agent analysis, then persistResult() updates the media summary. Agent checkpoint state is persisted through AgentCheckpointService. No runtime test executed; G02 remains unpassed.
