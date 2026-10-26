@@ -2131,3 +2131,21 @@ User answer (verbatim):
 > 调用AiService的asyncAnalyze()方法，负责分析视频上下文并对视频上下文的分析结果持久化。
 
 Assessment: PASS for identifying AiService.asyncAnalyze() and the broad role. Clarification: asyncAnalyze() loads an existing result checkpoint first; if no reusable result exists, it resolves/reuses VideoContext, calls AgentLoopService.run() for Agent analysis, then persistResult() updates the media summary. Agent checkpoint state is persisted through AgentCheckpointService. No runtime test executed; G02 remains unpassed.
+
+
+#### ORAL-D02-12 — Q3: Checkpoint persistence (2026-10-26)
+
+Question: Name the methods that persist the Executor draft and Critic state, and identify the primary persistence source versus cache.
+
+User answer (verbatim):
+> 1.不知道。
+> 2.不知道。
+> 3.不知道。新生成的状态缓存在Redis中，便于查询。
+
+Assessment: FAIL. Did not identify AgentCheckpointService.saveExecutionState() or saveCriticState(). Redis cache purpose is partially understood, but MySQL is the primary durable source; AgentCheckpointRepository.write() persists to MySQL and updates Redis after transaction commit.
+
+Follow-up question from user: "另外，后端异步处理是在onMessage()方法中进行的吗？"
+
+Clarification given: Analysis is asynchronous relative to the original HTTP request because AnalysisDispatchService.submit() dispatches a message to RocketMQ. The consumer callback VideoAnalysisConsumer.onMessage() invokes AiService.asyncAnalyze() in its main call chain; the method name alone does not prove a new thread is created. VideoContextService.build() explicitly submits ASR and key-frame branches to separate executors for parallel work.
+
+No runtime test executed; G02 remains unpassed.
