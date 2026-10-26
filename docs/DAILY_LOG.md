@@ -2092,3 +2092,13 @@ User answer (verbatim):
 Assessment: FAIL (first attempt). This describes the status query path rather than the new-task submission path. Correctly names GET /analysis/analysis-status, AnalysisController.analysisStatus(), and AnalysisStatusService.current() as parts of status recovery, but incorrectly treats this as the full analysis submission flow. Missing POST /analysis/ai and AnalysisController.aiAnalyze(), dispatch to RocketMQ, consumer, AI processing, checkpoint persistence, and frontend result display. Clarify that openAgent() is a frontend method, not a backend HTTP endpoint.
 
 Next step: targeted recheck beginning with distinguishing task submission from status polling; do not reveal the full chain before the user's next answer. No runtime test executed; G02 not passed.
+
+
+#### ORAL-D02-12 — Targeted recheck Q1: dispatch versus consumer (2026-10-26)
+
+Question: After POST /analysis/ai reaches AnalysisController.aiAnalyze(), which service and method submit the task, and which middleware hands it to background processing?
+
+User answer (verbatim):
+> 调用AnalysisService的onMessage()来提交任务，这个方法通过RecketMQ中间件把任务交给后台处理。
+
+Assessment: FAIL. Correct middleware concept (RocketMQ), but wrong service and method; conflates producer with consumer. Verified path: AnalysisController.aiAnalyze() -> AnalysisDispatchService.submit() -> RocketMQ -> VideoAnalysisConsumer.onMessage(). The submit method dispatches the message; onMessage is the consumer callback. Next recheck should require distinguishing producer and consumer without prompting the full chain. No runtime test performed; G02 remains unpassed.
