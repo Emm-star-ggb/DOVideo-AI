@@ -2080,3 +2080,15 @@ Retest answer (verbatim):
 Retest assessment: PASS (2/2). Correctly identifies completeWithError(e) and separates SSE transport errors from persisted Checkpoint data.
 
 Final D02-11 SSE delivery oral result: PASS after retest. First FAIL retained. No runtime test executed or claimed. G02 remains IN_PROGRESS.
+
+
+#### ORAL-D02-12 — Full request-flow closed-book first attempt (2026-10-26)
+
+Question: Starting from clicking AI analysis after video upload, explain the real end-to-end path: HTTP entry, RocketMQ dispatch and consumption, AI processing and persistence, and frontend report delivery.
+
+User answer (verbatim):
+> 点击前端的 AI 分析 按钮后，前端调用API，向GET/analysis/analysis-status端口发送Get请求到openAgent()方法，之后open()方法调用AnalysisController层中的analysisStatus()方法，analysisStatus()方法调用AnalysisStatusService层中的current()方法
+
+Assessment: FAIL (first attempt). This describes the status query path rather than the new-task submission path. Correctly names GET /analysis/analysis-status, AnalysisController.analysisStatus(), and AnalysisStatusService.current() as parts of status recovery, but incorrectly treats this as the full analysis submission flow. Missing POST /analysis/ai and AnalysisController.aiAnalyze(), dispatch to RocketMQ, consumer, AI processing, checkpoint persistence, and frontend result display. Clarify that openAgent() is a frontend method, not a backend HTTP endpoint.
+
+Next step: targeted recheck beginning with distinguishing task submission from status polling; do not reveal the full chain before the user's next answer. No runtime test executed; G02 not passed.
