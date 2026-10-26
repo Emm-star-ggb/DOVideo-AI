@@ -2159,3 +2159,13 @@ User answer (verbatim):
 > AgentCheckpointService.saveExecutionState()：保存 Executor 生成的草稿状态。
 
 Assessment: PASS. Correct method and responsibility. The saved AgentState contains the generated result while Critic state is still null, allowing later Critic processing or checkpoint-based resumption. Next: targeted recheck Q3-B for the method that saves Critic validation state. No runtime test executed; G02 remains unpassed.
+
+
+#### ORAL-D02-12 — Q3-B retest: Critic checkpoint (2026-10-26)
+
+Prompt: Which AgentCheckpointService method saves Critic validation state, and how does it differ from saveExecutionState()?
+
+Original answer:
+> AgentCheckpointService.saveCriticState()。saveExecutionState()保存的是Executor 草稿，此时状态为result不为空，criticResult为空；它保存的是Critic状态，此时状态为result、criticResult都不为空。
+
+Assessment: PASS. Correct method and state distinction. Executor draft: result present, critique null. After Critic: result and critique present. Next learning point: MySQL is the durable checkpoint source; Redis is the cache. Oral assessment only; no runtime test performed; G02 remains unpassed.
