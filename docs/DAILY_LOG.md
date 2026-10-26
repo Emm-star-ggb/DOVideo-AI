@@ -2169,3 +2169,15 @@ Original answer:
 > AgentCheckpointService.saveCriticState()。saveExecutionState()保存的是Executor 草稿，此时状态为result不为空，criticResult为空；它保存的是Critic状态，此时状态为result、criticResult都不为空。
 
 Assessment: PASS. Correct method and state distinction. Executor draft: result present, critique null. After Critic: result and critique present. Next learning point: MySQL is the durable checkpoint source; Redis is the cache. Oral assessment only; no runtime test performed; G02 remains unpassed.
+
+
+#### ORAL-D02-12 — Q3-C retest: Checkpoint persistence and cache (2026-10-26)
+
+Prompt: Identify the durable source, explain recovery after Redis cache update failure, and explain why Redis is updated after database commit.
+
+User answer (verbatim):
+> 1.MySQL是Checkpoint的持久化真源。
+> 2.因为Checkpoint保存在MySQL中。
+> 3.为了避免数据库事务回滚但Redis已经更新而造成的数据不一致。
+
+Assessment: PASS (3/3). Correctly identifies MySQL as durable source, Redis as a rebuildable cache, and transaction-commit ordering as protection against cache/database inconsistency. No runtime test executed; G02 remains unpassed pending complete request-flow evidence and end-to-end verification.
