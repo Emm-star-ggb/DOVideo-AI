@@ -2223,3 +2223,13 @@ User answer (verbatim):
 > 具体调用AnalysisStatusService.current()方法。 该方法再通过checkpointService.loadResult()加载Agent分析结果。
 
 Assessment: PASS. Correctly names AnalysisStatusService.current() and checkpointService.loadResult(). Together with the prior correct frontend status.result answer, the status-recovery/report-source oral subtopic is passed. This is oral evidence only; end-to-end runtime evidence and G02 gate evaluation remain outstanding.
+
+
+#### D02-12 final oral defense (2026-10-27)
+
+Original answer (verbatim):
+> 用户点击AI分析，分析任务消息通过POST/analysis/ai进入后端AnalysisController层中的aiAnalyze()方法，调用AnalysisDispatchService层中的submit()方法，提交分析任务并将消息传递给RocketMQ，若分析任务提交成功，响应HTTP。RocketMQ接到消息后，将消息加入RocketMQ列表中，请求消费者VideoAnalysisConsumer，如果请求成功，消息传递到消费者的onMessage()方法中对消息进行处理，检验其完整性和合理性，检验完成则将处理后的消息传递给AiService层中的asyncAnalyze(),开始AI分析任务，在其中利用AgentLoopService层中的run()方法执行上下文分析任务，AgentCheckpointService层进行操作中的和最终的结果保存。结果生成后，调用AgentCheckpointRepository层的write()方法将Checkpoint写入MySQL中，等待事务提交后更新Redis缓存。
+> 结果生成并持久化后消费者VideoAnalysisConsumer中的onMessage()方法将COMPLETED状态传递给TaskEventService层中的publishAnalysis()方法进行发布，之后经由Redis Pub/Sub将任务完成状态进行广播，传递至拥有着SSE连接的后端实例中，利用SseEmitter.send()方法将完成状态发送到前端，被前端的startTaskStream()捕获到，执行refreshMediaList()方法刷新媒体列表，再执行finish()方法更新面板状态，包括结果内容，加载状态和错误状态；成功后刷新Agent元数据。
+> SSE断开后，分析状态请求通过openAgent()方法中的GET/analysis/analysis-status进入后端，之后通过AnalysisController.analysisStatus()-->AnalysisStatusService.current()-->checkpointService.LoadResult()-->TaskStatus.completed(result)-->status.result调用链将结果展示在前端。
+
+Assessment: PASS 87/100 (coverage 28/30, technical accuracy 24/30, principles 17/20, failure recovery and clarity 18/20). Correct task submission, MQ consumption, Agent execution, checkpoint MySQL/Redis, SSE and status recovery. Corrections: RocketMQ Topic/Broker rather than list; consumer lock/retry/failure handling; AiService.persistResult() also updates aiSummary; correct method spelling loadResult(). Oral only; no runtime evidence. G02 remains unpassed pending Evidence A/B and ARCH-001.
