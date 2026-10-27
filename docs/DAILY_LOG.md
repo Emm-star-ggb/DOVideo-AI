@@ -2233,3 +2233,13 @@ Original answer (verbatim):
 > SSE断开后，分析状态请求通过openAgent()方法中的GET/analysis/analysis-status进入后端，之后通过AnalysisController.analysisStatus()-->AnalysisStatusService.current()-->checkpointService.LoadResult()-->TaskStatus.completed(result)-->status.result调用链将结果展示在前端。
 
 Assessment: PASS 87/100 (coverage 28/30, technical accuracy 24/30, principles 17/20, failure recovery and clarity 18/20). Correct task submission, MQ consumption, Agent execution, checkpoint MySQL/Redis, SSE and status recovery. Corrections: RocketMQ Topic/Broker rather than list; consumer lock/retry/failure handling; AiService.persistResult() also updates aiSummary; correct method spelling loadResult(). Oral only; no runtime evidence. G02 remains unpassed pending Evidence A/B and ARCH-001.
+
+
+#### D02-13 Evidence A HTTP entry source-location check (2026-10-27)
+
+User answer (verbatim):
+> 1.路径server/src/main/java/com/example/server/controller/AnalysisController.java
+> 2.101行
+> 3.mediaFile, revisedGoal, feedback, AnalysisMode.fromRequest(mode)
+
+Assessment: PARTIAL. Source file path and aiAnalyze() method declaration at line 101 are correct. The third answer matches a different submit call at line 166. For POST /analysis/ai, the actual call at line 113 is dispatchService.submit(mediaFile, normalizedGoal, null, analysisMode). Verified by fetching AnalysisController.java from learning. Next: targeted source-reading recheck for the correct submit arguments and meaning of null. No runtime test executed; G02 remains unpassed.
