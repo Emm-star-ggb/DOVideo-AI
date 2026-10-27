@@ -2253,3 +2253,13 @@ User answer (verbatim):
 > 不知道
 
 Assessment: FAIL. Parameters: mediaFile is authorized media; normalizedGoal is normalized analysis goal; null indicates no feedback for ordinary analysis; analysisMode is parsed analysis mode. The other path submits revisedGoal and feedback for feedback-driven reanalysis. Next: one smaller recheck focusing on the third argument and business distinction. No runtime test executed; G02 remains unpassed.
+
+
+#### D02-13 A1-B targeted recheck (2026-10-27)
+
+Question: Why does ordinary AI analysis pass null as the third submit argument, while feedback-driven reanalysis passes feedback?
+
+User answer (verbatim):
+> 因为普通AI分析没有提供反馈内容。基于反馈重新分析时，需要提供反馈来作为分析因素。
+
+Assessment: PASS. Correctly distinguishes a normal analysis without prior feedback from feedback-driven reanalysis, which supplies feedback as an input. This resolves the business-meaning portion of the prior A1 failure. Next: inspect AnalysisDispatchService.submit() for deduplication, quota/rate limiting and RocketMQ dispatch. Oral/source-reading evidence only; no runtime test performed. G02 remains unpassed.
