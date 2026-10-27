@@ -2243,3 +2243,13 @@ User answer (verbatim):
 > 3.mediaFile, revisedGoal, feedback, AnalysisMode.fromRequest(mode)
 
 Assessment: PARTIAL. Source file path and aiAnalyze() method declaration at line 101 are correct. The third answer matches a different submit call at line 166. For POST /analysis/ai, the actual call at line 113 is dispatchService.submit(mediaFile, normalizedGoal, null, analysisMode). Verified by fetching AnalysisController.java from learning. Next: targeted source-reading recheck for the correct submit arguments and meaning of null. No runtime test executed; G02 remains unpassed.
+
+
+#### D02-13 A1 targeted recheck (2026-10-27)
+
+Prompt: Explain the four parameters of dispatchService.submit(mediaFile, normalizedGoal, null, analysisMode), why the third is null, and the difference from the other submission call at line 166.
+
+User answer (verbatim):
+> 不知道
+
+Assessment: FAIL. Parameters: mediaFile is authorized media; normalizedGoal is normalized analysis goal; null indicates no feedback for ordinary analysis; analysisMode is parsed analysis mode. The other path submits revisedGoal and feedback for feedback-driven reanalysis. Next: one smaller recheck focusing on the third argument and business distinction. No runtime test executed; G02 remains unpassed.
