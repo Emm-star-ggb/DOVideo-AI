@@ -2263,3 +2263,13 @@ User answer (verbatim):
 > 因为普通AI分析没有提供反馈内容。基于反馈重新分析时，需要提供反馈来作为分析因素。
 
 Assessment: PASS. Correctly distinguishes a normal analysis without prior feedback from feedback-driven reanalysis, which supplies feedback as an input. This resolves the business-meaning portion of the prior A1 failure. Next: inspect AnalysisDispatchService.submit() for deduplication, quota/rate limiting and RocketMQ dispatch. Oral/source-reading evidence only; no runtime test performed. G02 remains unpassed.
+
+
+#### D02-13 Evidence A2 Redis deduplication (2026-10-27)
+
+Question: Why does AnalysisDispatchService.submit() call Redis setIfAbsent() before RocketMQ dispatch, and what happens if it returns false?
+
+User answer (verbatim):
+> 先执行setIfAbsent() 是为了避免任务被重复提交。它返回false，任务会return SubmissionResult.DUPLICATE，返回任务重复结果，退出方法。
+
+Assessment: PASS. Verified source: server/src/main/java/com/example/server/service/AnalysisDispatchService.java, submit() lines 63-74; Redis setIfAbsent(activeKey, mediaId, ACTIVE_TTL) atomically guards active submissions; if not true, returns DUPLICATE before RocketMQ. RocketMQ convertAndSend appears at line 83. This is code/oral evidence, not runtime test evidence. G02 remains unpassed.
