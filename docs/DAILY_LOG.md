@@ -2285,3 +2285,15 @@ Assessment: PASS. A failed MQ send requires activeKey cleanup to prevent false D
 Original answer:
 > 收到消息后应首先进行结构性校验，为了检查传入的消息结构性是否合法，以免结构非法的消息进入后报错。消息本身结构非法，属于不可恢复性错误，无论之后重试多少次都不会通过，对于错误系统会在限度内进行重试，直到超出限度，一直重试错误占用资源。
 Assessment: PASS (9/10). Correct permanent-failure reasoning. Clarification: structurally invalid messages should be handled as non-retryable with failure ledger/dead-letter, not retried until exhaustion. G02 remains unpassed.
+
+
+#### D02-13 A5 distributed lock: initial oral (2026-10-31)
+Original answer:
+> 为了避免同一视频、同一分析任务的消息被重复投递。可能会出现一样的任务占用两份资源的情况，资源浪费。
+Assessment: PARTIAL (7/10). Understands resource waste from duplicate execution, but incorrectly states consumer lock prevents MQ duplicate delivery. Missing concurrent checkpoint updates and stale-result overwrite risks.
+
+#### D02-13 A5 first targeted recheck
+Question: Why consumer lock is still needed after producer setIfAbsent()?
+Original answer:
+> 不知道
+Assessment: FAIL. Remediation: producer setIfAbsent prevents duplicate task submissions; consumer distributed lock prevents simultaneous execution of redelivered messages.
