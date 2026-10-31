@@ -2304,3 +2304,16 @@ Question: Why does producer Redis setIfAbsent() not prevent consumers A/B from c
 Original answer:
 > 因为Redis setIfAbsent()方法是对生产者提供的任务进行去重处理，但RocketMQ 因为消息重投递让消费者 A、B 都收到了同一条任务这件事发送在消费者这一端，无法由生产者处的方法来处理，属于同一个任务消息被RecketMQ重复传递给两个消费者了，在这时消费者的分布锁可以通过没有获得锁来对重复执行的消费者进行拦截。
 Assessment: PASS (9/10). Correct producer submission deduplication vs consumer concurrency exclusion. Precision: lock failure branch requires source verification; do not assume retry or exit. Oral evidence only; no runtime test. G02 remains unpassed.
+
+
+#### D02-13 Evidence A6 consumer lock acquisition failure (2026-10-31)
+
+Source reviewed: `VideoAnalysisConsumer.onMessage()`.
+
+User answer (verbatim):
+> 消费者获取分布式锁失败后，在日志中写入记录，并返回退出方法。if (!acquired) {
+>     log.info("video_analysis_skipped mediaId={} acquired={}", mediaId, acquired);
+>     return;
+> }
+
+Assessment: PASS (9/10). Correctly identifies the lock acquisition failure branch: log `video_analysis_skipped` and return. The `finally` block's cleanup is guarded by `if (acquired)`, so this path does not execute the acquired-lock cleanup/unlock branch. This is source-reading evidence only; no runtime test has been run. G02 remains unpassed.
