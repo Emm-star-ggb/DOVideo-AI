@@ -2273,3 +2273,9 @@ User answer (verbatim):
 > 先执行setIfAbsent() 是为了避免任务被重复提交。它返回false，任务会return SubmissionResult.DUPLICATE，返回任务重复结果，退出方法。
 
 Assessment: PASS. Verified source: server/src/main/java/com/example/server/service/AnalysisDispatchService.java, submit() lines 63-74; Redis setIfAbsent(activeKey, mediaId, ACTIVE_TTL) atomically guards active submissions; if not true, returns DUPLICATE before RocketMQ. RocketMQ convertAndSend appears at line 83. This is code/oral evidence, not runtime test evidence. G02 remains unpassed.
+
+
+#### D02-13 A3 MQ failure oral (2026-10-29)
+User original answer:
+> 为了避免之后重新提交任务时，显示任务重复而拒绝任务。不删除的话，用户无法进行下一次提交。
+Assessment: PASS. A failed MQ send requires activeKey cleanup to prevent false DUPLICATE until TTL or cleanup. No runtime evidence. G02 not passed.
