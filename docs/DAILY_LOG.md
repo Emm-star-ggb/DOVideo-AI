@@ -2297,3 +2297,10 @@ Question: Why consumer lock is still needed after producer setIfAbsent()?
 Original answer:
 > 不知道
 Assessment: FAIL. Remediation: producer setIfAbsent prevents duplicate task submissions; consumer distributed lock prevents simultaneous execution of redelivered messages.
+
+
+#### D02-13 A5 second targeted recheck
+Question: Why does producer Redis setIfAbsent() not prevent consumers A/B from concurrently executing a redelivered RocketMQ message, while the consumer distributed lock can?
+Original answer:
+> 因为Redis setIfAbsent()方法是对生产者提供的任务进行去重处理，但RocketMQ 因为消息重投递让消费者 A、B 都收到了同一条任务这件事发送在消费者这一端，无法由生产者处的方法来处理，属于同一个任务消息被RecketMQ重复传递给两个消费者了，在这时消费者的分布锁可以通过没有获得锁来对重复执行的消费者进行拦截。
+Assessment: PASS (9/10). Correct producer submission deduplication vs consumer concurrency exclusion. Precision: lock failure branch requires source verification; do not assume retry or exit. Oral evidence only; no runtime test. G02 remains unpassed.
