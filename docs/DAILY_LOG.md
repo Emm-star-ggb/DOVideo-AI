@@ -2279,3 +2279,9 @@ Assessment: PASS. Verified source: server/src/main/java/com/example/server/servi
 User original answer:
 > 为了避免之后重新提交任务时，显示任务重复而拒绝任务。不删除的话，用户无法进行下一次提交。
 Assessment: PASS. A failed MQ send requires activeKey cleanup to prevent false DUPLICATE until TTL or cleanup. No runtime evidence. G02 not passed.
+
+
+#### D02-13 A4 consumer structural validation (2026-10-31)
+Original answer:
+> 收到消息后应首先进行结构性校验，为了检查传入的消息结构性是否合法，以免结构非法的消息进入后报错。消息本身结构非法，属于不可恢复性错误，无论之后重试多少次都不会通过，对于错误系统会在限度内进行重试，直到超出限度，一直重试错误占用资源。
+Assessment: PASS (9/10). Correct permanent-failure reasoning. Clarification: structurally invalid messages should be handled as non-retryable with failure ledger/dead-letter, not retried until exhaustion. G02 remains unpassed.
