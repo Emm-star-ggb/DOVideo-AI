@@ -2317,3 +2317,11 @@ User answer (verbatim):
 > }
 
 Assessment: PASS (9/10). Correctly identifies the lock acquisition failure branch: log `video_analysis_skipped` and return. The `finally` block's cleanup is guarded by `if (acquired)`, so this path does not execute the acquired-lock cleanup/unlock branch. This is source-reading evidence only; no runtime test has been run. G02 remains unpassed.
+
+
+#### D02-13 A7 original oral (2026-11-01)
+Original answer:
+> 1.不知道。
+> 2.因为retrying == true说明该任务正在重试或者准备重试中，如果删除activeKey和attemptsKey，会报错无法再重新执行。
+> 3.不知道
+Assessment: PARTIAL (4/10). Q1 and Q3 unknown. Q2 partly correct: retrying keeps activeKey and attemptsKey to preserve active status and attempt count; deleting keys does not necessarily throw immediately. Redisson RLock unlock requires current-thread ownership; otherwise IllegalMonitorStateException may occur.
