@@ -2340,3 +2340,11 @@ Original answer:
 > 删除activeKey，若有相同任务再次提交，系统会认为该任务没有在执行而导致任务被重复提交。
 > 删除attemptsKey，重试次数的记录丢失。
 Assessment: PASS (10/10). Removing activeKey allows duplicate submissions during retry; removing attemptsKey loses retry count and may undermine retry limits. A7 overall PASS after earlier PARTIAL and lock ownership PASS. Oral/source evidence only; G02 remains unpassed pending remaining source and runtime verification.
+
+
+#### D02-13 Evidence A8 consumer retry mechanism (2026-11-01)
+Original answer:
+> 发生可重试异常时，抛出异常到catch语句中，进行判断，如果同时满足属于可重试异常，持有锁，attempt大于0同时小于最大重试次数这些条件，那么记录retrying为true，之后抛出异常一路向上，直到被RecketMQ捕捉到将其重新加入消息队列等待处理。
+> 通过attempt来控制重试次数，一旦超出最大次数次数，不在重试。
+> 重试次数达到上线后，将消息放到失败主题中，报存并发布任务失败状态，日志记录后退出方法。
+Assessment: oral conceptual PASS (8/10), source verification pending. Correctly distinguishes retryable exception propagation, retrying flag, attempt bounds and terminal failure. Clarifications: broker retry is triggered by failed consumption; attempt numbering and terminal handling order require exact source check. G02 remains unpassed.
