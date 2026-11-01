@@ -2348,3 +2348,7 @@ Original answer:
 > 通过attempt来控制重试次数，一旦超出最大次数次数，不在重试。
 > 重试次数达到上线后，将消息放到失败主题中，报存并发布任务失败状态，日志记录后退出方法。
 Assessment: oral conceptual PASS (8/10), source verification pending. Correctly distinguishes retryable exception propagation, retrying flag, attempt bounds and terminal failure. Clarifications: broker retry is triggered by failed consumption; attempt numbering and terminal handling order require exact source check. G02 remains unpassed.
+
+
+#### D02-13 A8 terminal retry/dead-letter source evidence (2026-11-01)
+User supplied the consumer catch branch with `if (acquired && (permanent || attempt >= MAX_DELIVERY_ATTEMPTS))`. Confirmed sequence: failedTaskService.record(msg, attempt, e) with its own error catch; rocketMQTemplate.convertAndSend(deadLetterTopic, msg); saveStage(..., DEAD_LETTERED); publishAnalysis(FAILED); log; return. If terminal handling throws RuntimeException, catch sets retrying=true, suppresses original error, and rethrows. Other failures log and throw IllegalStateException. Source evidence PARTIAL: the pasted excerpt does not establish how attempt is calculated or permanent is classified. No runtime verification; G02 remains unpassed.
