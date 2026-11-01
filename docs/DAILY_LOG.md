@@ -2325,3 +2325,10 @@ Original answer:
 > 2.因为retrying == true说明该任务正在重试或者准备重试中，如果删除activeKey和attemptsKey，会报错无法再重新执行。
 > 3.不知道
 Assessment: PARTIAL (4/10). Q1 and Q3 unknown. Q2 partly correct: retrying keeps activeKey and attemptsKey to preserve active status and attempt count; deleting keys does not necessarily throw immediately. Redisson RLock unlock requires current-thread ownership; otherwise IllegalMonitorStateException may occur.
+
+
+#### D02-13 A7 lock ownership retest (2026-11-01)
+Question: If consumer A's lock lease expires and consumer B acquires it, why must A check isHeldByCurrentThread() before unlock()?
+Original answer:
+> 因为此时锁已经不被消费者A拥有。isHeldByCurrentThread() 在这个场景中起到避免因之前拥有过锁但现在已经没有锁的消费者A将锁关闭或取消，导致目前持有锁的消费者B的执行出现问题。
+Assessment: PASS (9/10). Correctly recognizes loss of current-thread lock ownership and need for guarded unlock. Precision: Redisson normally rejects unlock by non-owner with IllegalMonitorStateException; it does not simply release B's lock. Remaining A7 gap: retrying and Redis key retention. G02 not passed.
