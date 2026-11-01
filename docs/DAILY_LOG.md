@@ -2352,3 +2352,15 @@ Assessment: oral conceptual PASS (8/10), source verification pending. Correctly 
 
 #### D02-13 A8 terminal retry/dead-letter source evidence (2026-11-01)
 User supplied the consumer catch branch with `if (acquired && (permanent || attempt >= MAX_DELIVERY_ATTEMPTS))`. Confirmed sequence: failedTaskService.record(msg, attempt, e) with its own error catch; rocketMQTemplate.convertAndSend(deadLetterTopic, msg); saveStage(..., DEAD_LETTERED); publishAnalysis(FAILED); log; return. If terminal handling throws RuntimeException, catch sets retrying=true, suppresses original error, and rethrows. Other failures log and throw IllegalStateException. Source evidence PARTIAL: the pasted excerpt does not establish how attempt is calculated or permanent is classified. No runtime verification; G02 remains unpassed.
+
+
+#### D02-13 A8 retry counter and classification source (2026-11-01)
+User supplied:
+```java
+long attempt = 0;
+Long currentAttempt = redisTemplate.opsForValue().increment(attemptsKey);
+attempt = currentAttempt == null ? 1 : currentAttempt;
+redisTemplate.expire(attemptsKey, ACTIVE_TTL);
+boolean permanent = isPermanentFailure(e);
+```
+Assessment: A8 core source tracing PASS. Redis INCR increments attemptsKey; null fallback is 1; expire applies ACTIVE_TTL. isPermanentFailure(e) determines permanent classification; together with `acquired && (permanent || attempt >= MAX_DELIVERY_ATTEMPTS)` this establishes terminal handling trigger. The specific exception categories inside isPermanentFailure remain unverified. No actual RocketMQ retry runtime evidence; G02 remains unpassed.
