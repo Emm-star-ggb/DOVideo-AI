@@ -2332,3 +2332,11 @@ Question: If consumer A's lock lease expires and consumer B acquires it, why mus
 Original answer:
 > 因为此时锁已经不被消费者A拥有。isHeldByCurrentThread() 在这个场景中起到避免因之前拥有过锁但现在已经没有锁的消费者A将锁关闭或取消，导致目前持有锁的消费者B的执行出现问题。
 Assessment: PASS (9/10). Correctly recognizes loss of current-thread lock ownership and need for guarded unlock. Precision: Redisson normally rejects unlock by non-owner with IllegalMonitorStateException; it does not simply release B's lock. Remaining A7 gap: retrying and Redis key retention. G02 not passed.
+
+
+#### D02-13 A7 Redis retry state retest (2026-11-01)
+Question: If retrying == true, what happens when activeKey or attemptsKey is incorrectly deleted?
+Original answer:
+> 删除activeKey，若有相同任务再次提交，系统会认为该任务没有在执行而导致任务被重复提交。
+> 删除attemptsKey，重试次数的记录丢失。
+Assessment: PASS (10/10). Removing activeKey allows duplicate submissions during retry; removing attemptsKey loses retry count and may undermine retry limits. A7 overall PASS after earlier PARTIAL and lock ownership PASS. Oral/source evidence only; G02 remains unpassed pending remaining source and runtime verification.
