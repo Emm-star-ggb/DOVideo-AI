@@ -157,7 +157,7 @@ What happens when each service is missing?
 Status:
 
 ```text
-HYPOTHESIS
+IN_PROGRESS
 ```
 
 Use one specific request.
@@ -165,16 +165,16 @@ Use one specific request.
 Request:
 
 ```text
-
+用户对已上传视频提交 AI 分析任务
 ```
 
 ## Entry
 
 ```text
-HTTP method/path:
-File:
-Class:
-Method:
+HTTP method/path: POST /analysis/ai
+File: DOVideo-AI/server/src/main/java/com/example/server/controller/AnalysisController.java
+Class: AnalysisController
+Method: aiAnalyze()
 ```
 
 ## Call Chain
@@ -191,9 +191,15 @@ For every step:
 
 | Step | File/Class/Method | Input | Output | Sync/Async | Verified |
 |---|---|---|---|---|---|
-| 1 | | | | | |
-| 2 | | | | | |
+| 1 | AnalysisController.aiAnalyze() | AI分析HTTP请求 | 调用AnalysisDispatchService.submit()方法 | Sync | Source checked |
+| 2 | dispatchService.submit() | mediaFile, normalizedGoal, null, analysisMode | 任务提交结果 | Async | Source checked |
 | 3 | | | | | |
+| 4 | VideoAnalysisConsumer.onMessage() | msg | 调用aiService.asyncAnalyze()方法 | Async | |
+| 5 | aiService.asyncAnalyze() | mediaId, msg.getUserGoal(), mode | 调用agentLoopService.run() | | |
+|  | agentLoopService.run() | mediaId, videoContext, modeRegistry.of(resolvedMode) | 调用AgentLoop的状态 | | |
+|  | | | | | |
+|  | | | | | |
+|  | | | | | |
 
 ## Runtime Evidence
 
