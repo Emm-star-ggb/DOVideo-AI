@@ -795,3 +795,27 @@ ChatGPT: exam decisions, oral transcript archival, final Gate assessment.
 Codex: actual test execution/review and truthful raw evidence; may append test evidence if authorized, but cannot declare Gate PASS.
 User: performs learning-critical work and provides locally observed results when ChatGPT/Codex cannot inspect the runtime.
 GitHub: persistent archive and source of truth for verified records.
+
+
+---
+
+# V2 Training Mode — Teaching and Job Search in Parallel (2026-11-12)
+
+This section supersedes earlier instructions that require questioning or closed-book recall **before teaching**. All existing evidence integrity, user ownership, review/test, and Gate standards remain binding.
+
+## Default learning sequence
+
+1. ChatGPT first provides the system knowledge map, business motivation, prerequisites, principles, and a worked example.
+2. Connect concepts to verified source paths; distinguish verified code from conceptual examples.
+3. User asks questions and completes open-book comprehension checks; these are **not** Gate oral defense.
+4. User proposes a design and writes the first learning-critical implementation; Codex may locate code, explain existing behavior, review and test, but must not silently replace the user's reasoning.
+5. After teaching and practice, ChatGPT conducts closed-book oral defense; evaluate technical correctness, principles, and expression, and record interview debt.
+6. Archive evidence in GitHub; do not mark Gate PASS without required Code/Git, Test, Benchmark or justified N/A, and Oral Defense.
+
+## Parallel recruitment track
+
+Maintain two complementary resume projects: DOVideo-AI (Agent + Java backend) and a second Java backend project. Keep Maoyan-Movie-System as a candidate until a source-based selection; do not delete it from the registry. Prepare a truthful resume draft early and apply to verified 2027 graduate roles while learning. Learning progression may continue while a Gate is incomplete; **Gate PASS remains mandatory for advancing the formal engineering Gate stage**, not for learning theory, resume drafting, or applications. Never claim upstream code as personal implementation, or invent benchmark results.
+
+## Daily rhythm
+
+08:30 teaching and knowledge map; daytime source mapping and independent practice; later interview fundamentals tied to the resume and job applications; 19:00 consolidated evidence check and oral defense only after instruction. If an automated question arrives before teaching, treat it as optional review, not an entrance exam. Refer to LEARNING_PLAN.md for flexible time allocation.
