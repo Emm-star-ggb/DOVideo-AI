@@ -1002,3 +1002,17 @@ Reason:
 | G06 | | | | |
 | G07 | | | | |
 | G08 | | | | |
+
+
+---
+
+# V2 Training / Gate Boundary (2026-11-12)
+
+This clarification does not modify any historical Gate decision or evidence criterion.
+
+- Teach the system framework, business motivation, principles and relevant source paths **before** comprehension questions or Gate oral defense.
+- Open-book classroom checks and instructor-led examples do **not** count as the closed-book Oral Defense evidence.
+- Preserve user-first implementation, Codex Review, user revision, Codex Test, and ChatGPT final Gate decision.
+- Gate PASS still requires verified Code/Git or execution, actual Test evidence, Benchmark or justified N/A, and closed-book Oral Defense.
+- The user may study subsequent theory, prepare an honest two-project resume, and apply to 2027 graduate roles while G02 remains incomplete; formal engineering Gate advancement remains evidence-gated.
+- Keep G00/G01 PASS history intact and do not infer G02 PASS from classroom answers.
