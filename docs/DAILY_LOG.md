@@ -2364,3 +2364,12 @@ redisTemplate.expire(attemptsKey, ACTIVE_TTL);
 boolean permanent = isPermanentFailure(e);
 ```
 Assessment: A8 core source tracing PASS. Redis INCR increments attemptsKey; null fallback is 1; expire applies ACTIVE_TTL. isPermanentFailure(e) determines permanent classification; together with `acquired && (permanent || attempt >= MAX_DELIVERY_ATTEMPTS)` this establishes terminal handling trigger. The specific exception categories inside isPermanentFailure remain unverified. No actual RocketMQ retry runtime evidence; G02 remains unpassed.
+
+
+---
+
+# V2 Training-Mode Transition — 2026-11-12
+
+Decision: switch to Mode B, teaching and recruitment in parallel. Classroom understanding checks are distinct from closed-book Gate oral defense. Teach architecture and principles first, then source mapping, user-first implementation, Codex Review/Test, and evidence-based Gate decision. Maintain two complementary resume projects: DOVideo-AI plus a Java backend project; Maoyan-Movie-System remains a candidate pending evaluation. Resume V0 and 2027 graduate job applications may proceed before G02 PASS, with only truthful, verified claims.
+
+Classroom topics discussed: asynchronous HTTP 202 vs MQ; request dispatch/consumer/Agent chain; task state vs reusable Checkpoint. User explained the motivation for asynchronous MQ processing and Checkpoint reuse in open-book checks. These are teaching observations, **not** Gate oral PASS. No business code or test evidence was produced in this transition. Preserve historical Gate results and existing evidence. Next: teach Redis idempotency, MQ retries and Redisson locks; independently verify source mapping and prepare a second-project selection comparison.
