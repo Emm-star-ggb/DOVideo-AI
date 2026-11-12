@@ -797,3 +797,32 @@ implemented/verified
 ```
 
 Mark only such claims as `RESUME_READY`.
+
+
+---
+
+# V2 Addendum — Teaching + Job Search in Parallel (2026-11-12)
+
+This addendum supersedes the old morning-first closed-book and 22:30 check schedule, without erasing historical records or changing G00/G01/G02 evidence. The original logical-day/Gate plan remains an evidence index rather than a rigid daily teaching order.
+
+## Two-project resume strategy
+
+- Project A: DOVideo-AI — Agent, retrieval, asynchronous processing and backend reliability.
+- Project B: Java backend — retain Maoyan-Movie-System as an **unselected candidate**; compare it against other mature projects for runnable setup, meaningful independent enhancement, high-concurrency/transaction depth, and complementary resume value. Do not drop the second project.
+- Prioritize a verified independent enhancement in each project over adding many technologies.
+
+## Learning modules (knowledge map, not strict Gate order)
+
+M1 system architecture and end-to-end request; M2 Java/Spring/MySQL/Redis fundamentals; M3 MQ, locks, retries and reliability; M4 Agent/RAG; M5 independent secondary development; M6 resume and interviews. Start each module with teaching, principles and worked examples, then source mapping, user implementation, Codex Review/Test, and only then closed-book examination.
+
+## Suggested daily loop
+
+08:30–09:00 map and review; 09:00–10:30 instruction; 10:30–12:00 source mapping; 13:30–16:00 independent implementation and Codex Review/Test; 16:00–17:00 resume-oriented Java/Agent fundamentals; 17:00–18:00 resume preparation and verified 2027 graduate job applications; 18:00–19:00 evidence organization and optional taught-topic practice; 19:00 consolidated Gate review. Adjust to actual workload; do not force a Gate every day.
+
+## Resume readiness
+
+V0 now: only verified experience and actual personal contribution. Pilot applications when the resume is truthful and project basics can be explained; do not wait for all Gates. V1 after independently implemented and tested improvement. Quantitative claims require BENCHMARK evidence. Keep separate backend and Agent-focused variants as appropriate.
+
+## Gate boundary
+
+GATES.md remains the source of truth for engineering Gate status. G00/G01 historical PASS remains. G02 status must only change after the specified evidence and closed-book oral defense. Unfinished Gates do not block theory teaching or job applications. Keep Code/Git, Test, Benchmark or justified N/A, and Oral Defense evidence requirements unchanged.
