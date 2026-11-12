@@ -388,3 +388,31 @@ Move nothing manually into this section unless oral status is `MASTERED`.
 | ID | Question | Last Pass Date | Gate |
 |---|---|---|---|
 | | | | |
+
+
+---
+
+# V2 Question Taxonomy and Review Record (2026-11-12)
+
+Keep existing historical questions, IDs and oral evidence unchanged. The question pool is **teaching-derived**, not an entrance exam. Add questions only after the relevant concept is taught or project evidence is discovered; an open-book classroom answer is not a closed-book Gate PASS.
+
+## Categories
+
+Java (collections/concurrency/JVM), Spring (MVC/DI/AOP/transactions), MySQL (SQL/indexes/transactions), Redis (cache/idempotency/locks), RocketMQ (delivery/retry/dead letter), Agent (loop/tools/context/checkpoint), RAG (retrieval/evaluation), Architecture (request flow/reliability), and Secondary Project (transactions/high concurrency).
+
+## Additional fields per question
+
+```text
+Module: M1–M6
+Project: DOVideo-AI / Second Project / General Foundation
+Verified Source: repository path + class/method + commit, or NOT_VERIFIED
+Teaching Status: NOT_LEARNED / LEARNING / TAUGHT
+Mastery Level: L0 / L1 / L2 / L3 / L4 (evidence-based)
+Question Status: NEW / LEARNING / FAILED_ORAL / ORAL_PENDING / MASTERED
+Last Reviewed: YYYY-MM-DD / NONE
+Next Review: YYYY-MM-DD / TBD
+Last Retest: NOT_TESTED / PASS / FAIL / PARTIAL
+Related Debt: DEBT-XXX / NONE
+```
+
+Mastery L3 requires actual project-code mapping and use; L4 requires personally implemented/tested/measured work with defensible trade-offs. Preserve original answer and oral history. Do not infer mastery from classroom checks or a generated model answer.
