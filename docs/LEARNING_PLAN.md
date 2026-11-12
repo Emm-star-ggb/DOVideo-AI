@@ -826,3 +826,31 @@ V0 now: only verified experience and actual personal contribution. Pilot applica
 ## Gate boundary
 
 GATES.md remains the source of truth for engineering Gate status. G00/G01 historical PASS remains. G02 status must only change after the specified evidence and closed-book oral defense. Unfinished Gates do not block theory teaching or job applications. Keep Code/Git, Test, Benchmark or justified N/A, and Oral Defense evidence requirements unchanged.
+
+
+---
+
+## V2 Documentation Cleanup Backlog (2026-11-12)
+
+Status: PLANNED. This is a tracked documentation task, not a completed change or a Gate PASS. Review this section when starting a new training conversation and before the next substantial module.
+
+### Priority 1 — Consolidate overlapping rules
+
+- [ ] AGENTS.md: integrate V2 into the canonical teaching and work-mode sections instead of leaving competing legacy instructions. Preserve user-first implementation, Codex Review/Test, ChatGPT oral defense, GitHub evidence integrity and role boundaries. Remove outdated question-first defaults; do not remove historical evidence rules.
+- [ ] LEARNING_PLAN.md: consolidate the 08:30 teaching / 19:00 review cadence and parallel job-search track; remove conflicting legacy morning-first closed-book / 22:30 Gate schedule. Keep both resume projects: DOVideo-AI and a second Java backend project. Maoyan-Movie-System stays a candidate until source-based comparison; do not delete it.
+- [ ] GATES.md: preserve G00/G01 decisions and all Code/Git, Test, Benchmark (or justified N/A), Oral Defense requirements. Classroom checks never count as Gate oral evidence. Never auto-PASS G02.
+
+### Priority 2 — Knowledge records
+
+- [ ] INTERVIEW_QA.md: add Java, Spring, MySQL, Redis, RocketMQ, Agent categories, with module, verified source link, mastery L0–L4, last review and next review fields. Populate incrementally after teaching; do not fabricate mastery.
+- [ ] INTERVIEW_DEBT.md: distinguish NOT_LEARNED (not debt), LEARNING, NEEDS_REVIEW and CRITICAL; record error reason, remediation, retest date and outcome. Do not classify first exposure as Gate failure.
+
+### Priority 3 — Architecture evidence
+
+- [ ] ARCHITECTURE.md: after M1 teaching and source verification, record system overview, actual request path, state/checkpoint/retry flows, component responsibility and explicit verified/unverified markers. Do not present conceptual diagrams as verified implementation.
+- [ ] DAILY_LOG.md: record each cleanup commit and teaching progress without overwriting prior entries.
+- [ ] BENCHMARK.md: no schema change planned; preserve executed-experiment evidence standard.
+
+### Completion criteria
+
+Each cleanup is documentation-only, independently reviewable, and committed to the learning branch. Check for contradictory instructions after consolidation; preserve historical Gate records and avoid modifying business code. Mark each checkbox complete only after verifying the corresponding file content and commit.
