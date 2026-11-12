@@ -328,3 +328,37 @@ Resolved:
 Deferred:
 Gate impact:
 ```
+
+
+---
+
+# V2 Learning-State vs Interview-Debt Policy (2026-11-12)
+
+**Do not create Interview Debt for first exposure to an untaught concept.** Track such topics in the teaching plan or QA record instead. Existing historical debt IDs and evidence remain unchanged.
+
+## Learning state (separate from existing debt priority and workflow status)
+
+- NOT_LEARNED — not yet taught; not debt and never a Gate failure on its own.
+- LEARNING — taught and currently practicing; may be a learning note, not automatically debt.
+- NEEDS_REVIEW — after instruction/practice, the user still cannot reliably explain or apply a relevant concept; record cause and retest.
+- CRITICAL — demonstrated unresolved gap in resume-critical, personally adopted or Gate-blocking knowledge; must cite actual evidence, not a first-attempt guess.
+
+Existing priority CRITICAL/NORMAL/OPTIONAL and workflow OPEN/LEARNING/ORAL_PENDING/RESOLVED/DEFERRED remain valid. These new learning states do **not** replace those fields or silently reclassify historical entries.
+
+## Additional record fields
+
+```text
+Learning State: NEEDS_REVIEW / CRITICAL (or track NOT_LEARNED / LEARNING outside debt index)
+Teaching Module: M1–M6
+Taught On: YYYY-MM-DD / NOT_VERIFIED
+Observed Gap: user's actual explanation or failed test (do not fabricate)
+Root Cause: concept / source mapping / implementation / expression / unknown
+Remediation: specific small learning or engineering action
+Review Date: YYYY-MM-DD / TBD
+Retest Date: YYYY-MM-DD / TBD
+Retest Result: NOT_TESTED / PARTIAL / PASS / FAIL
+Related QA / Gate / Resume Claim: identifiers or NONE
+Evidence: verified path / commit / oral record
+```
+
+Review unresolved gaps at the three-day review; only mark RESOLVED when the required explanation, code/test evidence and retest standard are actually met. Never treat a classroom comprehension check as a formal Gate oral defense.
