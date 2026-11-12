@@ -136,9 +136,10 @@ Last Updated:
 Every active learning day follows:
 
 ```text
-08:30 ChatGPT morning check
-→ previous Gate check
-→ closed-book recall
+08:30 ChatGPT teaching kickoff
+→ check GitHub Gate and last learning record
+→ top-down knowledge map, principles and worked example
+→ taught-topic comprehension check
 → today's minimum scope
 
 User self-study / first implementation
@@ -154,7 +155,7 @@ Codex Test Engineer Mode
 
 Update GitHub docs / commits
 
-22:30 ChatGPT Gate Check
+19:00 ChatGPT consolidated Gate Check
 → code
 → tests
 → benchmark or N/A
@@ -165,13 +166,13 @@ Update GitHub docs / commits
 Recommended time allocation:
 
 ```text
-Morning planning/recall      20 min
-Source reading/debugging     90–120 min
+Morning knowledge map        20 min
+Teaching + source mapping    90–120 min
 Independent implementation  90 min
 Codex review + revision      60–90 min
 Theory tied to project       60 min
 Documentation/evidence       30–45 min
-Oral Gate                    30–60 min
+Gate evidence / oral (when ready) 30–60 min
 ```
 
 ---
@@ -832,18 +833,18 @@ GATES.md remains the source of truth for engineering Gate status. G00/G01 histor
 
 ## V2 Documentation Cleanup Backlog (2026-11-12)
 
-Status: PLANNED. This is a tracked documentation task, not a completed change or a Gate PASS. Review this section when starting a new training conversation and before the next substantial module.
+Status: IN_PROGRESS. Completed items are checked only after their files are updated and re-read. This is not a Gate PASS. Review this section when starting a new training conversation and before the next substantial module.
 
 ### Priority 1 — Consolidate overlapping rules
 
-- [ ] AGENTS.md: integrate V2 into the canonical teaching and work-mode sections instead of leaving competing legacy instructions. Preserve user-first implementation, Codex Review/Test, ChatGPT oral defense, GitHub evidence integrity and role boundaries. Remove outdated question-first defaults; do not remove historical evidence rules.
-- [ ] LEARNING_PLAN.md: consolidate the 08:30 teaching / 19:00 review cadence and parallel job-search track; remove conflicting legacy morning-first closed-book / 22:30 Gate schedule. Keep both resume projects: DOVideo-AI and a second Java backend project. Maoyan-Movie-System stays a candidate until source-based comparison; do not delete it.
-- [ ] GATES.md: preserve G00/G01 decisions and all Code/Git, Test, Benchmark (or justified N/A), Oral Defense requirements. Classroom checks never count as Gate oral evidence. Never auto-PASS G02.
+- [x] AGENTS.md: integrate V2 into the canonical teaching and work-mode sections instead of leaving competing legacy instructions. Preserve user-first implementation, Codex Review/Test, ChatGPT oral defense, GitHub evidence integrity and role boundaries. Remove outdated question-first defaults; do not remove historical evidence rules.
+- [x] LEARNING_PLAN.md: consolidate the 08:30 teaching / 19:00 review cadence and parallel job-search track; remove conflicting legacy morning-first closed-book / 22:30 Gate schedule. Keep both resume projects: DOVideo-AI and a second Java backend project. Maoyan-Movie-System stays a candidate until source-based comparison; do not delete it.
+- [x] GATES.md: preserve G00/G01 decisions and all Code/Git, Test, Benchmark (or justified N/A), Oral Defense requirements. Classroom checks never count as Gate oral evidence. Never auto-PASS G02.
 
 ### Priority 2 — Knowledge records
 
-- [ ] INTERVIEW_QA.md: add Java, Spring, MySQL, Redis, RocketMQ, Agent categories, with module, verified source link, mastery L0–L4, last review and next review fields. Populate incrementally after teaching; do not fabricate mastery.
-- [ ] INTERVIEW_DEBT.md: distinguish NOT_LEARNED (not debt), LEARNING, NEEDS_REVIEW and CRITICAL; record error reason, remediation, retest date and outcome. Do not classify first exposure as Gate failure.
+- [x] INTERVIEW_QA.md: add Java, Spring, MySQL, Redis, RocketMQ, Agent categories, with module, verified source link, mastery L0–L4, last review and next review fields. Populate incrementally after teaching; do not fabricate mastery.
+- [x] INTERVIEW_DEBT.md: distinguish NOT_LEARNED (not debt), LEARNING, NEEDS_REVIEW and CRITICAL; record error reason, remediation, retest date and outcome. Do not classify first exposure as Gate failure.
 
 ### Priority 3 — Architecture evidence
 
