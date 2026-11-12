@@ -15,7 +15,9 @@ The goal is **not** to let AI finish the project for the user.
 The required learning loop is:
 
 ```text
-ChatGPT asks / scopes
+ChatGPT teaches the system map, business motivation, principles and worked example
+→ User completes an open-book comprehension check (not Gate oral evidence)
+→ ChatGPT maps verified source code
 → User thinks
 → User designs
 → User writes the first implementation
@@ -113,8 +115,8 @@ Use:
 - `GATES.md` when validating readiness;
 - `ARCHITECTURE.md` when changing service boundaries or tracing flows;
 - `BENCHMARK.md` when performance or retrieval-quality claims are involved;
-- `INTERVIEW_DEBT.md` when the user cannot explain a technology already used;
-- `INTERVIEW_QA.md` when a meaningful implementation is finished;
+- `INTERVIEW_DEBT.md` for demonstrated gaps after teaching, not for first exposure to a new topic;
+- `INTERVIEW_QA.md` after taught concepts and meaningful implementation, with mastery evidence distinguished;
 - `DAILY_LOG.md` for daily evidence.
 
 ---
@@ -141,9 +143,9 @@ Examples include:
 
 For these modules, use this sequence:
 
-1. Explain the problem to solve.
-2. Identify the minimum relevant code paths/files.
-3. Ask the user for a proposed design or first implementation.
+1. Teach the overall knowledge map, business motivation, prerequisites, technical principles and a worked example.
+2. Connect the principles to verified code paths/files, explicitly distinguishing assumptions.
+3. Check comprehension after teaching, then ask the user for a proposed design or first implementation.
 4. Wait for the user's attempt.
 5. Review the attempt.
 6. Point out bugs, missing edge cases, and trade-offs.
@@ -166,13 +168,13 @@ Do not modify learning-critical code first.
 
 Return:
 
-1. the problem being solved;
-2. prerequisites;
-3. recommended files/classes/methods to read;
-4. minimum implementation target;
-5. questions the user should answer before coding.
+1. a top-down knowledge map and the problem being solved;
+2. prerequisites, underlying principles and a worked example;
+3. recommended verified files/classes/methods to read;
+4. a small comprehension check after teaching;
+5. the minimum independent implementation target when ready.
 
-Then stop and wait for the user's first attempt.
+Do not start with a closed-book exam. Wait for the user's first attempt before reviewing learning-critical code.
 
 ## Review Mode
 
