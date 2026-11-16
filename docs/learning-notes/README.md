@@ -16,3 +16,21 @@
 | 模块 | 讲义 | 状态 |
 |---|---|---|
 | M1 系统架构基础 | [M1-系统架构基础.md](M1-系统架构基础.md) | 教学主体已整理；源码练习与 G02 验收待完成 |
+
+
+## Fixed teaching-to-archive workflow
+
+For every teaching module, follow this sequence:
+
+1. Systematic top-down teaching: knowledge map, business context, principles, worked example.
+2. Map concepts to verified source files/classes/methods; label inference and unknowns.
+3. Run a comprehension check only after teaching; it is not formal Gate oral evidence.
+4. Write a complete module Markdown note using the structure above.
+5. Save it under this directory on the `learning` branch.
+6. Update this README index.
+7. Append the archive commit and accurate learning/Gate status to `docs/DAILY_LOG.md`.
+8. Read back all changed files to verify; never change Gate status without its required evidence.
+9. Continue source-location practice, user-owned implementation, Codex review and tests.
+10. Conduct closed-book Gate oral defense only when the required evidence is ready.
+
+If teaching is incomplete, label the note `PARTIAL`. Never skip the archive steps merely because the session moves to a new conversation.
