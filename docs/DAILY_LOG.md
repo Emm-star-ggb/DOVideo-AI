@@ -2384,3 +2384,15 @@ Classroom topics discussed: asynchronous HTTP 202 vs MQ; request dispatch/consum
 - The note distinguishes source-verified behavior, teaching abstractions, and questions requiring validation. It does not claim Gate completion.
 - M1 classroom teaching and comprehension checks have occurred; independent source-location practice, engineering evidence, and G02 formal oral defense remain pending. G02 status is unchanged.
 - Source mapping references current learning-branch files. Re-check current source when revisiting because line numbers may change.
+
+
+---
+
+## Fixed Teaching-to-Archive Workflow — 2026-11-16
+
+Recorded the mandatory per-module teaching and documentation workflow in:
+- `AGENTS.md` (teaching sequence and fixed archive workflow), commit `d81bca1a527bcdec450ebfa390da2b64458a093a`.
+- `docs/learning-notes/README.md` (archive rules and checklist), commit `a16c24de8d7da90375cf112c9eaf114456246509`.
+- `docs/LEARNING_PLAN.md` (daily workflow archive checkpoint), commit `158433429a4a539813d454fc0110db2742b55cc3`.
+
+Required sequence: teach top-down; map verified source; comprehension check after teaching; write module note; update README index; append DAILY_LOG; read back and verify; then continue independent source practice/implementation/review/tests; formal Gate oral defense only when evidence is ready. Partial teaching must be labeled PARTIAL. Classroom checks never count as Gate PASS.
