@@ -2373,3 +2373,14 @@ Assessment: A8 core source tracing PASS. Redis INCR increments attemptsKey; null
 Decision: switch to Mode B, teaching and recruitment in parallel. Classroom understanding checks are distinct from closed-book Gate oral defense. Teach architecture and principles first, then source mapping, user-first implementation, Codex Review/Test, and evidence-based Gate decision. Maintain two complementary resume projects: DOVideo-AI plus a Java backend project; Maoyan-Movie-System remains a candidate pending evaluation. Resume V0 and 2027 graduate job applications may proceed before G02 PASS, with only truthful, verified claims.
 
 Classroom topics discussed: asynchronous HTTP 202 vs MQ; request dispatch/consumer/Agent chain; task state vs reusable Checkpoint. User explained the motivation for asynchronous MQ processing and Checkpoint reuse in open-book checks. These are teaching observations, **not** Gate oral PASS. No business code or test evidence was produced in this transition. Preserve historical Gate results and existing evidence. Next: teach Redis idempotency, MQ retries and Redisson locks; independently verify source mapping and prepare a second-project selection comparison.
+
+
+---
+
+## M1 Learning Notes Archived — 2026-11-16
+
+- Added `docs/learning-notes/README.md` as the learning-note index and archive convention.
+- Added `docs/learning-notes/M1-系统架构基础.md`, covering the taught architecture map, HTTP/dispatch/MQ/consumer flow, Redis keys, Checkpoint, Agent execution, persistence, exception handling, interview questions, and next steps.
+- The note distinguishes source-verified behavior, teaching abstractions, and questions requiring validation. It does not claim Gate completion.
+- M1 classroom teaching and comprehension checks have occurred; independent source-location practice, engineering evidence, and G02 formal oral defense remain pending. G02 status is unchanged.
+- Source mapping references current learning-branch files. Re-check current source when revisiting because line numbers may change.
