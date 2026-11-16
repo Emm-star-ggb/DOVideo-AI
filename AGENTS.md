@@ -153,8 +153,29 @@ For these modules, use this sequence:
 8. Only after a genuine attempt, help fill specific gaps if requested.
 9. Run tests.
 10. Generate interview questions and possible Interview Debt.
+11. **Archive the teaching module** in `docs/learning-notes/<module>.md` using the repository learning-note structure: knowledge map, business context, principles, verified source mapping, flow/exception paths, interview fundamentals, pitfalls, mastery state, and next steps. Clearly label source-verified facts, teaching abstractions/inferences, and unresolved questions.
+12. Update `docs/learning-notes/README.md` index and append a concise archive record to `docs/DAILY_LOG.md`. Verify each changed file by reading it back from the learning branch.
 
 Do not reveal the full final answer when the user is currently being tested.
+
+## 3.1 Fixed Teaching-to-Archive Workflow
+
+Every completed teaching module follows this order:
+
+```text
+1. Systematic teaching (top-down map → business context → principles → worked example)
+2. Source-code mapping (verified paths/classes/methods; mark assumptions)
+3. Comprehension check after teaching (not Gate oral evidence)
+4. Organize the complete module into a Markdown learning note
+5. Archive the note under docs/learning-notes/ on learning branch
+6. Update the learning-notes README index
+7. Append the archive and learning status to DAILY_LOG.md
+8. Read back changed files to verify; preserve actual Gate status
+9. Continue with source-location practice / independent implementation / review / tests
+10. Conduct formal closed-book Gate oral defense only when required evidence is ready
+```
+
+Do not silently skip documentation because a conversation changes or a new chat starts. If a module is only partially taught, label the note PARTIAL rather than complete. Never mark classroom checks as formal Gate PASS.
 
 ---
 
