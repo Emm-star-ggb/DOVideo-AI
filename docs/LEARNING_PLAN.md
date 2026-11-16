@@ -155,6 +155,8 @@ Codex Test Engineer Mode
 
 Update GitHub docs / commits
 
+After each teaching module: create/update `docs/learning-notes/<module>.md`, update the learning-notes README index, append the archive record to DAILY_LOG.md, and read back changed files to verify. Mark partial modules as PARTIAL; classroom checks are not Gate oral evidence.
+
 19:00 ChatGPT consolidated Gate Check
 → code
 → tests
